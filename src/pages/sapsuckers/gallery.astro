@@ -1,41 +1,84 @@
 ---
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { sanityClient } from 'sanity:client';
+import imageUrlBuilder from '@sanity/image-url';
 
-const foodPhotos = [
-  { src: 'SAPSUCKERS5starsv2-6.jpg', alt: 'Gourmet burger with fries' },
-  { src: 'SAPSUCKERS5starsv2-17.jpg', alt: 'Cuban sandwich' },
-  { src: 'SAPSUCKERS5starsv2-20.jpg', alt: 'Glazed wings' },
-  { src: 'SAPSUCKERS5starsv2-8.jpg', alt: 'Table spread' },
-  { src: 'SAPSUCKERS5starsv2-10.jpg', alt: 'Mac and cheese' },
-  { src: 'SAPSUCKERS5starsv2-14.jpg', alt: 'Chili with cornbread' },
-  { src: 'SAPSUCKERS5starsv2-25.jpg', alt: 'Dessert with ice cream' },
-  { src: 'SAPSUCKERS5starsv2-5.jpg', alt: 'Loaded hot dog with fries' },
-  { src: 'SAPSUCKERS5starsv2-7.jpg', alt: 'Wedge salad' },
-  { src: 'SAPSUCKERS5starsv2-12.jpg', alt: 'Baked mac and cheese' },
-  { src: 'SAPSUCKERS5starsv2-15.jpg', alt: 'Cornbread muffin' },
-  { src: 'SAPSUCKERS5starsv2-16.jpg', alt: 'Chili bowl' },
-  { src: 'SAPSUCKERS5starsv2-18.jpg', alt: 'Dark glazed wings' },
-  { src: 'SAPSUCKERS5starsv2-2.jpg', alt: 'Hot dog with caramelized onions' },
-  { src: 'SAPSUCKERS5starsv2-3.jpg', alt: 'Hot dog plated' },
-  { src: 'SAPSUCKERS5starsv2-9.jpg', alt: 'Wedge salad closeup' },
-  { src: 'SAPSUCKERS5starsv2-4.jpg', alt: 'Seasoned fries' },
-  { src: 'SAPSUCKERS5starsv2-19.jpg', alt: 'Chicken wings' },
-];
+// Types
+interface GalleryPhoto { src: string; alt: string; }
+interface GallerySection { title: string; photos: GalleryPhoto[]; aspect: string; columns: number; }
 
-const drinkPhotos = [
-  { src: 'SAPSUCKERS5starsv2-50.jpg', alt: 'Three craft beers' },
-  { src: 'SAPSUCKERS5starsv2-55.jpg', alt: 'Dark beer foam' },
-  { src: 'SAPSUCKERS5starsv2-60.jpg', alt: 'Red ale closeup' },
-];
+let gallerySections: GallerySection[] = [];
 
-const ambiancePhotos = [
-  { src: 'SAPSUCKERS5starsv2-65.jpg', alt: 'Bar interior' },
-  { src: 'SAPSUCKERS5starsv2-70.jpg', alt: 'Booth seating' },
-  { src: 'SAPSUCKERS5starsv2-35.jpg', alt: 'Exterior sign' },
-  { src: 'SAPSUCKERS5starsv2-40.jpg', alt: 'Storefront' },
-  { src: 'SAPSUCKERS5starsv2-30.jpg', alt: 'Brand detail' },
-  { src: 'SAPSUCKERS5starsv2-45.jpg', alt: 'Branded vehicle' },
-];
+try {
+  const builder = imageUrlBuilder(sanityClient);
+  const sections = await sanityClient.fetch(`
+    *[_type == "gallerySection" && restaurant == "sapsuckers"] | order(sortOrder asc) {
+      title,
+      aspectRatio,
+      columns,
+      photos[] {
+        alt,
+        "imageUrl": image.asset->url
+      }
+    }
+  `);
+
+  if (sections?.length) {
+    gallerySections = sections.map((s: any) => ({
+      title: s.title,
+      aspect: s.aspectRatio === 'landscape' ? 'aspect-[4/3]' : 'aspect-square',
+      columns: s.columns || 4,
+      photos: (s.photos || []).map((p: any) => ({
+        src: p.imageUrl + '?w=800&h=800&fit=crop&auto=format',
+        alt: p.alt || '',
+      })),
+    }));
+  }
+} catch (e) {
+  // Sanity unavailable, use fallback
+}
+
+// Fallback: static photos
+if (!gallerySections.length) {
+  const foodPhotos = [
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-6.jpg', alt: 'Gourmet burger with fries' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-17.jpg', alt: 'Cuban sandwich' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-20.jpg', alt: 'Glazed wings' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-8.jpg', alt: 'Table spread' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-10.jpg', alt: 'Mac and cheese' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-14.jpg', alt: 'Chili with cornbread' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-25.jpg', alt: 'Dessert with ice cream' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-5.jpg', alt: 'Loaded hot dog with fries' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-7.jpg', alt: 'Wedge salad' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-12.jpg', alt: 'Baked mac and cheese' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-15.jpg', alt: 'Cornbread muffin' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-16.jpg', alt: 'Chili bowl' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-18.jpg', alt: 'Dark glazed wings' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-2.jpg', alt: 'Hot dog with caramelized onions' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-3.jpg', alt: 'Hot dog plated' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-9.jpg', alt: 'Wedge salad closeup' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-4.jpg', alt: 'Seasoned fries' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-19.jpg', alt: 'Chicken wings' },
+  ];
+  const drinkPhotos = [
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-50.jpg', alt: 'Three craft beers' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-55.jpg', alt: 'Dark beer foam' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-60.jpg', alt: 'Red ale closeup' },
+  ];
+  const ambiancePhotos = [
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-65.jpg', alt: 'Bar interior' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-70.jpg', alt: 'Booth seating' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-35.jpg', alt: 'Exterior sign' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-40.jpg', alt: 'Storefront' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-30.jpg', alt: 'Brand detail' },
+    { src: '/sapsuckers/SAPSUCKERS5starsv2-45.jpg', alt: 'Branded vehicle' },
+  ];
+  gallerySections = [
+    { title: 'From the Kitchen', photos: foodPhotos, aspect: 'aspect-square', columns: 4 },
+    { title: 'On Tap', photos: drinkPhotos, aspect: 'aspect-[4/3]', columns: 3 },
+    { title: 'The Space', photos: ambiancePhotos, aspect: 'aspect-[4/3]', columns: 3 },
+  ];
+}
 ---
 <SapsuckersLayout title="Gallery | Sapsuckers - Hops & Grub" description="Photos of craft beers, gastropub dishes, and the warm interior at Sapsuckers in Huntington, NY." currentPage="gallery">
   <!-- Hero -->
@@ -51,60 +94,23 @@ const ambiancePhotos = [
     </div>
   </section>
 
-  <!-- Food Gallery -->
-  <section class="py-16 bg-stone-50">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-8">From the Kitchen</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-        {foodPhotos.map(photo => (
-          <div class="group relative overflow-hidden rounded-lg aspect-square" data-lightbox>
-            <img
-              src={`/sapsuckers/${photo.src}`}
-              alt={photo.alt}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        ))}
+  {gallerySections.map((section, si) => (
+    <section class={`py-16 ${si % 2 === 0 ? 'bg-stone-50' : 'bg-white'}`}>
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-8">{section.title}</h2>
+        <div class={`grid grid-cols-2 md:grid-cols-${section.columns} gap-3 md:gap-4`}>
+          {section.photos.map(photo => (
+            <div class={`group relative overflow-hidden rounded-lg ${section.aspect}`} data-lightbox>
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Drinks Gallery -->
-  <section class="py-16 bg-white">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-8">On Tap</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-        {drinkPhotos.map(photo => (
-          <div class="group relative overflow-hidden rounded-lg aspect-[4/3]" data-lightbox>
-            <img
-              src={`/sapsuckers/${photo.src}`}
-              alt={photo.alt}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Ambiance Gallery -->
-  <section class="py-16 bg-stone-50">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-8">The Space</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-        {ambiancePhotos.map(photo => (
-          <div class="group relative overflow-hidden rounded-lg aspect-[4/3]" data-lightbox>
-            <img
-              src={`/sapsuckers/${photo.src}`}
-              alt={photo.alt}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+    </section>
+  ))}
 </SapsuckersLayout>

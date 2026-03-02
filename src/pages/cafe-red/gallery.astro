@@ -1,44 +1,85 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+import { sanityClient } from 'sanity:client';
+import imageUrlBuilder from '@sanity/image-url';
 
-const foodPhotos = [
-  { src: 'CAFERED5starsv2-35.jpg', alt: 'Steak with asparagus and fries' },
-  { src: 'CAFERED5starsv2-20.jpg', alt: 'Spaghetti and meatballs' },
-  { src: 'CAFERED5starsv2-16.jpg', alt: 'Pancakes with fresh berries' },
-  { src: 'CAFERED5starsv2-25.jpg', alt: 'Eggs Benedict closeup' },
-  { src: 'CAFERED5starsv2-21.jpg', alt: 'Mushroom pappardelle' },
-  { src: 'CAFERED5starsv2-24.jpg', alt: 'Crab cake Benedict' },
-  { src: 'CAFERED5starsv2-30.jpg', alt: 'Grilled cheese with soup' },
-  { src: 'CAFERED5starsv2-47.jpg', alt: 'Cubano sandwich with fries' },
-  { src: 'CAFERED5starsv2-17.jpg', alt: 'French toast with berries' },
-  { src: 'CAFERED5starsv2-27.jpg', alt: 'Breakfast plate' },
-  { src: 'CAFERED5starsv2-28.jpg', alt: 'Soup with herbs' },
-  { src: 'CAFERED5starsv2-31.jpg', alt: 'Steak dinner plated' },
-  { src: 'CAFERED5starsv2-33.jpg', alt: 'Steak closeup' },
-  { src: 'CAFERED5starsv2-37.jpg', alt: 'Bread and bacon jam' },
-  { src: 'CAFERED5starsv2-29.jpg', alt: 'Grilled cheese with bacon' },
-  { src: 'CAFERED5starsv2-36.jpg', alt: 'Toast with bacon jam' },
-];
+interface GalleryPhoto { src: string; alt: string; }
+interface GallerySection { title: string; photos: GalleryPhoto[]; aspect: string; columns: number; }
 
-const interiorPhotos = [
-  { src: 'CAFERED5starsv2-1.jpg', alt: 'Main dining room' },
-  { src: 'CAFERED5starsv2-2.jpg', alt: 'Dining room with art' },
-  { src: 'CAFERED5starsv2-5.jpg', alt: 'Dining room center' },
-  { src: 'CAFERED5starsv2-10.jpg', alt: 'Wine barrel decoration' },
-  { src: 'CAFERED5starsv2-15.jpg', alt: 'Roses on table' },
-  { src: 'CAFERED5starsv2-11.jpg', alt: 'Table setting' },
-  { src: 'CAFERED5starsv2-3.jpg', alt: 'Wine cork wall art' },
-  { src: 'CAFERED5starsv2-9.jpg', alt: 'Wine cork collection' },
-];
+let gallerySections: GallerySection[] = [];
 
-const exteriorPhotos = [
-  { src: 'CAFERED5starsv2-43.jpg', alt: 'Cafe Red entrance' },
-  { src: 'CAFERED5starsv2-38.jpg', alt: 'Storefront winter' },
-  { src: 'CAFERED5starsv2-40.jpg', alt: 'Street view winter' },
-  { src: 'CAFERED5starsv2-44.jpg', alt: 'Signage detail' },
-  { src: 'CAFERED5starsv2-45.jpg', alt: 'Restaurant sign' },
-  { src: 'CAFERED5starsv2-46.jpg', alt: 'Sign closeup' },
-];
+try {
+  const builder = imageUrlBuilder(sanityClient);
+  const sections = await sanityClient.fetch(`
+    *[_type == "gallerySection" && restaurant == "cafe-red"] | order(sortOrder asc) {
+      title,
+      aspectRatio,
+      columns,
+      photos[] {
+        alt,
+        "imageUrl": image.asset->url
+      }
+    }
+  `);
+
+  if (sections?.length) {
+    gallerySections = sections.map((s: any) => ({
+      title: s.title,
+      aspect: s.aspectRatio === 'landscape' ? 'aspect-[4/3]' : 'aspect-square',
+      columns: s.columns || 4,
+      photos: (s.photos || []).map((p: any) => ({
+        src: p.imageUrl + '?w=800&h=800&fit=crop&auto=format',
+        alt: p.alt || '',
+      })),
+    }));
+  }
+} catch (e) {
+  // Sanity unavailable, use fallback
+}
+
+if (!gallerySections.length) {
+  const foodPhotos = [
+    { src: '/cafe-red/CAFERED5starsv2-35.jpg', alt: 'Steak with asparagus and fries' },
+    { src: '/cafe-red/CAFERED5starsv2-20.jpg', alt: 'Spaghetti and meatballs' },
+    { src: '/cafe-red/CAFERED5starsv2-16.jpg', alt: 'Pancakes with fresh berries' },
+    { src: '/cafe-red/CAFERED5starsv2-25.jpg', alt: 'Eggs Benedict closeup' },
+    { src: '/cafe-red/CAFERED5starsv2-21.jpg', alt: 'Mushroom pappardelle' },
+    { src: '/cafe-red/CAFERED5starsv2-24.jpg', alt: 'Crab cake Benedict' },
+    { src: '/cafe-red/CAFERED5starsv2-30.jpg', alt: 'Grilled cheese with soup' },
+    { src: '/cafe-red/CAFERED5starsv2-47.jpg', alt: 'Cubano sandwich with fries' },
+    { src: '/cafe-red/CAFERED5starsv2-17.jpg', alt: 'French toast with berries' },
+    { src: '/cafe-red/CAFERED5starsv2-27.jpg', alt: 'Breakfast plate' },
+    { src: '/cafe-red/CAFERED5starsv2-28.jpg', alt: 'Soup with herbs' },
+    { src: '/cafe-red/CAFERED5starsv2-31.jpg', alt: 'Steak dinner plated' },
+    { src: '/cafe-red/CAFERED5starsv2-33.jpg', alt: 'Steak closeup' },
+    { src: '/cafe-red/CAFERED5starsv2-37.jpg', alt: 'Bread and bacon jam' },
+    { src: '/cafe-red/CAFERED5starsv2-29.jpg', alt: 'Grilled cheese with bacon' },
+    { src: '/cafe-red/CAFERED5starsv2-36.jpg', alt: 'Toast with bacon jam' },
+  ];
+  const interiorPhotos = [
+    { src: '/cafe-red/CAFERED5starsv2-1.jpg', alt: 'Main dining room' },
+    { src: '/cafe-red/CAFERED5starsv2-2.jpg', alt: 'Dining room with art' },
+    { src: '/cafe-red/CAFERED5starsv2-5.jpg', alt: 'Dining room center' },
+    { src: '/cafe-red/CAFERED5starsv2-10.jpg', alt: 'Wine barrel decoration' },
+    { src: '/cafe-red/CAFERED5starsv2-15.jpg', alt: 'Roses on table' },
+    { src: '/cafe-red/CAFERED5starsv2-11.jpg', alt: 'Table setting' },
+    { src: '/cafe-red/CAFERED5starsv2-3.jpg', alt: 'Wine cork wall art' },
+    { src: '/cafe-red/CAFERED5starsv2-9.jpg', alt: 'Wine cork collection' },
+  ];
+  const exteriorPhotos = [
+    { src: '/cafe-red/CAFERED5starsv2-43.jpg', alt: 'Cafe Red entrance' },
+    { src: '/cafe-red/CAFERED5starsv2-38.jpg', alt: 'Storefront winter' },
+    { src: '/cafe-red/CAFERED5starsv2-40.jpg', alt: 'Street view winter' },
+    { src: '/cafe-red/CAFERED5starsv2-44.jpg', alt: 'Signage detail' },
+    { src: '/cafe-red/CAFERED5starsv2-45.jpg', alt: 'Restaurant sign' },
+    { src: '/cafe-red/CAFERED5starsv2-46.jpg', alt: 'Sign closeup' },
+  ];
+  gallerySections = [
+    { title: 'From the Kitchen', photos: foodPhotos, aspect: 'aspect-square', columns: 4 },
+    { title: 'The Dining Room', photos: interiorPhotos, aspect: 'aspect-square', columns: 4 },
+    { title: 'Our Location', photos: exteriorPhotos, aspect: 'aspect-[4/3]', columns: 3 },
+  ];
+}
 ---
 <CafeRedLayout title="Gallery | Cafe Red" description="Photos of dishes, the dining room, and exterior at Cafe Red in Kings Park, NY." currentPage="gallery">
   <!-- Hero -->
@@ -54,60 +95,23 @@ const exteriorPhotos = [
     </div>
   </section>
 
-  <!-- Food Gallery -->
-  <section class="py-16 bg-stone-50">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-red-900 mb-8">From the Kitchen</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-        {foodPhotos.map(photo => (
-          <div class="group relative overflow-hidden rounded-lg aspect-square" data-lightbox>
-            <img
-              src={`/cafe-red/${photo.src}`}
-              alt={photo.alt}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        ))}
+  {gallerySections.map((section, si) => (
+    <section class={`py-16 ${si % 2 === 0 ? 'bg-stone-50' : 'bg-white'}`}>
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-display font-bold text-red-900 mb-8">{section.title}</h2>
+        <div class={`grid grid-cols-2 md:grid-cols-${section.columns} gap-3 md:gap-4`}>
+          {section.photos.map(photo => (
+            <div class={`group relative overflow-hidden rounded-lg ${section.aspect}`} data-lightbox>
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Interior Gallery -->
-  <section class="py-16 bg-white">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-red-900 mb-8">The Dining Room</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-        {interiorPhotos.map(photo => (
-          <div class="group relative overflow-hidden rounded-lg aspect-square" data-lightbox>
-            <img
-              src={`/cafe-red/${photo.src}`}
-              alt={photo.alt}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Exterior Gallery -->
-  <section class="py-16 bg-stone-50">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display font-bold text-red-900 mb-8">Our Location</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-        {exteriorPhotos.map(photo => (
-          <div class="group relative overflow-hidden rounded-lg aspect-[4/3]" data-lightbox>
-            <img
-              src={`/cafe-red/${photo.src}`}
-              alt={photo.alt}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+    </section>
+  ))}
 </CafeRedLayout>
