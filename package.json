@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
+    "@astrojs/tailwind": "^6.0.2",
     "@sanity/astro": "^3.2.11",
     "@sanity/vision": "^5.9.0",
     "@types/react": "^19.2.14",
@@ -18,6 +19,7 @@
     "dotenv": "^17.3.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "sanity": "^5.9.0"
+    "sanity": "^5.9.0",
+    "tailwindcss": "^3.4.19"
   }
 }

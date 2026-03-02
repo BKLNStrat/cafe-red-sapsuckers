@@ -1,0 +1,94 @@
+---
+import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+---
+<SapsuckersLayout title="Contact | Sapsuckers - Hops & Grub" description="Find Sapsuckers at 287 Main St, Huntington Village, NY 11743. Open 7 days, 12-10pm. Call (631) 923-3065 or reserve on OpenTable." currentPage="contact">
+  <!-- Hero -->
+  <section class="relative h-48 md:h-64">
+    <img
+      src="/sapsuckers/SAPSUCKERS5starsv2-35.jpg"
+      alt="Sapsuckers exterior sign"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative z-10 flex items-center justify-center h-full">
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-white">Contact</h1>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24 bg-stone-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-12">
+        <!-- Info -->
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-8">Find Us</h2>
+
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Address</h3>
+              <p class="text-lg text-gray-900">287 Main St</p>
+              <p class="text-lg text-gray-900">Huntington, NY 11743</p>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Phone</h3>
+              <a href="tel:6319233065" class="text-lg text-gray-900 hover:underline">(631) 923-3065</a>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Hours</h3>
+              <div class="space-y-2 text-gray-700">
+                <div class="flex justify-between max-w-xs">
+                  <span>Monday - Thursday</span>
+                  <span>12pm - 10pm</span>
+                </div>
+                <div class="flex justify-between max-w-xs">
+                  <span>Friday - Saturday</span>
+                  <span>12pm - 11pm</span>
+                </div>
+                <div class="flex justify-between max-w-xs">
+                  <span>Sunday</span>
+                  <span>12pm - 9pm</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-4">
+              <a
+                href="https://www.ordersapsuckers.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-center px-6 py-3 bg-gray-900 text-white font-semibold rounded hover:bg-gray-700 transition text-sm"
+              >
+                Order Online
+              </a>
+              <a
+                href="https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-center px-6 py-3 border border-gray-900 text-gray-900 font-semibold rounded hover:bg-gray-900 hover:text-white transition text-sm"
+              >
+                Make a Reservation
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div>
+          <div class="bg-gray-200 rounded-lg overflow-hidden aspect-square md:aspect-auto md:h-full min-h-[300px]">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3018.5!2d-73.4257!3d40.8682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e8287e8e0a4c4b%3A0x1234567890!2s70+Gerard+St%2C+Huntington%2C+NY+11743!5e0!3m2!1sen!2sus!4v1234567890"
+              width="100%"
+              height="100%"
+              style="border:0; min-height: 300px;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Sapsuckers location map"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</SapsuckersLayout>
