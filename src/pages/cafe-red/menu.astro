@@ -1,19 +1,46 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+import { sanityClient } from 'sanity:client';
 
-const menuSections = [
-  {
-    title: 'Specials',
-    items: [
+interface MenuItem { name: string; price: string; desc?: string; }
+interface MenuSection { title: string; subtitle?: string; items: MenuItem[]; }
+
+let menuSections: MenuSection[] = [];
+
+try {
+  const sections = await sanityClient.fetch(`
+    *[_type == "menuSection" && restaurant == "cafe-red"] | order(sortOrder asc) {
+      title,
+      subtitle,
+      dishes[]->{
+        title,
+        description,
+        price
+      }
+    }
+  `);
+
+  if (sections?.length) {
+    menuSections = sections.map((s: any) => ({
+      title: s.title,
+      subtitle: s.subtitle || undefined,
+      items: (s.dishes || []).map((d: any) => ({
+        name: d.title,
+        price: d.price,
+        desc: d.description || undefined,
+      })),
+    }));
+  }
+} catch (e) { /* fallback */ }
+
+if (!menuSections.length) {
+  menuSections = [
+    { title: 'Specials', items: [
       { name: 'Soup of the Day', price: 'Market' },
       { name: 'Seasonal Risotto', price: 'Market' },
       { name: "Chef's Fish Special", price: 'Market' },
-    ],
-  },
-  {
-    title: 'Brunch',
-    subtitle: 'Saturday & Sunday',
-    items: [
+    ]},
+    { title: 'Brunch', subtitle: 'Saturday & Sunday', items: [
       { name: 'Buttermilk Pancakes', price: '$16', desc: 'Fresh berries, whipped cream, maple syrup' },
       { name: 'French Toast', price: '$17', desc: 'Brioche, seasonal fruit, powdered sugar' },
       { name: 'Eggs Benedict', price: '$18', desc: 'Canadian bacon, hollandaise, English muffin' },
@@ -21,87 +48,35 @@ const menuSections = [
       { name: 'Classic Omelet', price: '$16', desc: 'Three eggs, choice of fillings, toast' },
       { name: 'Steak & Eggs', price: '$24', desc: 'Grilled steak, two eggs any style, breakfast potatoes' },
       { name: 'Avocado Toast', price: '$15', desc: 'Smashed avocado, poached egg, everything seasoning' },
-    ],
-  },
-  {
-    title: 'Lunch',
-    items: [
+    ]},
+    { title: 'Lunch', items: [
       { name: 'Grilled Chicken Club', price: '$18' },
       { name: 'Turkey BLT', price: '$16' },
       { name: 'Cafe Red Burger', price: '$19', desc: 'Angus beef, aged cheddar, lettuce, tomato, brioche bun' },
       { name: 'Soup & Half Sandwich', price: '$16' },
-    ],
-  },
-  {
-    title: 'Lunch Salads',
-    items: [
-      { name: 'Caesar Salad', price: '$15+', desc: 'Romaine, parmesan, croutons, classic dressing' },
-      { name: 'Mixed Greens', price: '$14', desc: 'Seasonal greens, vegetables, house vinaigrette' },
-      { name: 'Caprese', price: '$16', desc: 'Fresh mozzarella, heirloom tomatoes, basil, balsamic' },
-      { name: 'Chopped Italian', price: '$16', desc: 'Salami, peppers, olives, provolone, Italian dressing' },
-    ],
-  },
-  {
-    title: 'Lunch Pasta',
-    items: [
-      { name: 'Penne Vodka', price: '$18', desc: 'Creamy vodka sauce, parmesan' },
-      { name: 'Spaghetti & Meatballs', price: '$20', desc: 'Housemade meatballs, marinara, parmesan' },
-      { name: 'Fettuccine Alfredo', price: '$18+', desc: 'Classic cream sauce, parmesan' },
-      { name: 'Mushroom Pappardelle', price: '$20', desc: 'Mixed mushrooms, truffle cream, parmesan' },
-    ],
-  },
-  {
-    title: 'Lunch Sandwiches',
-    items: [
-      { name: 'Grilled Cheese & Tomato Soup', price: '$16', desc: 'Three-cheese blend, sourdough' },
-      { name: 'Cubano', price: '$18', desc: 'Roasted pork, ham, Swiss, pickles, mustard' },
-      { name: 'Italian Hero', price: '$18', desc: 'Capicola, salami, provolone, peppers, oil & vinegar' },
-      { name: 'Chicken Parm Sub', price: '$19', desc: 'Breaded cutlet, marinara, mozzarella' },
-    ],
-  },
-  {
-    title: 'Dinner Starters',
-    items: [
+    ]},
+    { title: 'Dinner Starters', items: [
       { name: 'Bruschetta', price: '$14', desc: 'Heirloom tomato, garlic, basil, balsamic' },
       { name: 'Fried Calamari', price: '$17', desc: 'Lemon, marinara' },
       { name: 'Meatballs', price: '$15', desc: 'Housemade, Sunday gravy, ricotta' },
       { name: 'Burrata', price: '$18', desc: 'Prosciutto, roasted peppers, arugula, balsamic' },
       { name: 'Shrimp Scampi', price: '$19', desc: 'White wine, garlic, lemon, butter, crostini' },
       { name: 'Bread & Bacon Jam', price: '$12', desc: 'Warm bread, housemade bacon jam' },
-    ],
-  },
-  {
-    title: 'Dinner Pasta',
-    items: [
-      { name: 'Rigatoni Bolognese', price: '$24', desc: 'Slow-braised meat sauce, parmesan' },
-      { name: 'Lobster Ravioli', price: '$30', desc: 'Lobster cream sauce, fresh herbs' },
-      { name: 'Chicken Parmigiana', price: '$26', desc: 'Breaded cutlet, marinara, mozzarella, spaghetti' },
-      { name: 'Mushroom Pappardelle', price: '$24', desc: 'Wild mushrooms, truffle cream, parmesan' },
-      { name: 'Shrimp Fra Diavolo', price: '$28', desc: 'Spicy tomato sauce, linguine' },
-      { name: 'Eggplant Parmigiana', price: '$22', desc: 'Breaded eggplant, marinara, mozzarella, ricotta' },
-    ],
-  },
-  {
-    title: 'Dinner Entrees',
-    items: [
+    ]},
+    { title: 'Dinner Entrees', items: [
       { name: 'NY Strip Steak', price: '$38', desc: '12oz grilled, peppercorn sauce, asparagus, fries' },
       { name: 'Grilled Salmon', price: '$32', desc: 'Lemon butter, seasonal vegetables, rice' },
       { name: 'Chicken Marsala', price: '$26', desc: 'Mushroom Marsala sauce, mashed potatoes' },
       { name: 'Veal Piccata', price: '$30', desc: 'Lemon caper sauce, angel hair pasta' },
       { name: 'Grilled Branzino', price: '$34', desc: 'Herb crust, lemon, roasted vegetables' },
       { name: 'Short Rib', price: '$36', desc: 'Braised, red wine reduction, creamy polenta' },
-    ],
-  },
-];
+    ]},
+  ];
+}
 ---
 <CafeRedLayout title="Menu | Cafe Red" description="Full menu at Cafe Red -- new American and Italian cuisine, brunch, lunch, dinner, and full bar in Kings Park, NY." currentPage="menu">
-  <!-- Hero -->
   <section class="relative h-64 md:h-80">
-    <img
-      src="/cafe-red/CAFERED5starsv2-35.jpg"
-      alt="Steak dinner at Cafe Red"
-      class="absolute inset-0 w-full h-full object-cover"
-    />
+    <img src="/cafe-red/CAFERED5starsv2-35.jpg" alt="Steak dinner at Cafe Red" class="absolute inset-0 w-full h-full object-cover" />
     <div class="absolute inset-0 bg-red-950/60"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
       <h1 class="text-4xl md:text-5xl font-display font-bold">Our Menu</h1>
@@ -109,17 +84,10 @@ const menuSections = [
     </div>
   </section>
 
-  <!-- Order Online Banner -->
   <div class="bg-red-900 text-white text-center py-4 px-4">
-    <p class="text-sm">
-      Enjoy Cafe Red at home --
-      <a href="https://www.ordercafered.com/" target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:text-red-200 transition">
-        Order Online for Pickup or Delivery
-      </a>
-    </p>
+    <p class="text-sm">Enjoy Cafe Red at home -- <a href="https://www.ordercafered.com/" target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:text-red-200 transition">Order Online for Pickup or Delivery</a></p>
   </div>
 
-  <!-- Menu -->
   <section class="py-16 md:py-24 bg-stone-50">
     <div class="max-w-4xl mx-auto px-4">
       {menuSections.map((section, i) => (
@@ -128,17 +96,13 @@ const menuSections = [
             <h2 class="text-2xl md:text-3xl font-display font-bold text-red-900 whitespace-nowrap">{section.title}</h2>
             <div class="flex-1 h-px bg-red-200"></div>
           </div>
-          {'subtitle' in section && section.subtitle && (
-            <p class="text-sm text-gray-500 mb-6">{section.subtitle}</p>
-          )}
-          <div class={`grid gap-4 ${'subtitle' in section ? '' : 'mt-6'}`}>
+          {section.subtitle && <p class="text-sm text-gray-500 mb-6">{section.subtitle}</p>}
+          <div class={`grid gap-4 ${section.subtitle ? '' : 'mt-6'}`}>
             {section.items.map(item => (
               <div class="flex items-start justify-between gap-4 py-2 border-b border-gray-200 last:border-0">
                 <div>
                   <span class="text-base font-medium text-gray-900">{item.name}</span>
-                  {'desc' in item && item.desc && (
-                    <p class="text-sm text-gray-500 mt-0.5">{item.desc}</p>
-                  )}
+                  {item.desc && <p class="text-sm text-gray-500 mt-0.5">{item.desc}</p>}
                 </div>
                 <span class="text-base text-gray-500 font-medium whitespace-nowrap">{item.price}</span>
               </div>
@@ -146,17 +110,9 @@ const menuSections = [
           </div>
         </div>
       ))}
-
       <div class="mt-16 text-center">
         <p class="text-sm text-gray-500 mb-6">Prices and availability subject to change. Please inform your server of any allergies.</p>
-        <a
-          href="https://www.ordercafered.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block px-8 py-3 bg-red-900 text-white font-semibold rounded hover:bg-red-800 transition text-sm"
-        >
-          Order Online Now
-        </a>
+        <a href="https://www.ordercafered.com/" target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3 bg-red-900 text-white font-semibold rounded hover:bg-red-800 transition text-sm">Order Online Now</a>
       </div>
     </div>
   </section>
