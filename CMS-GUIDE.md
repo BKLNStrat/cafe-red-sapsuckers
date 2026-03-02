@@ -11,7 +11,8 @@
 
 1. [Overview](#overview)
 2. [What You Can Update Yourself](#what-you-can-update-yourself)
-3. [Using Sanity Studio (Your CMS)](#using-sanity-studio)
+3. [Getting Started -- First-Time Login](#getting-started----first-time-login)
+4. [Using Sanity Studio (Your CMS)](#using-sanity-studio)
 4. [Managing Online Ordering (Menufy)](#managing-online-ordering)
 5. [Managing Reservations (OpenTable)](#managing-reservations)
 6. [Photo Gallery](#photo-gallery)
@@ -63,13 +64,42 @@ Through OpenTable (as you do now -- unchanged):
 
 ---
 
+## Getting Started -- First-Time Login
+
+### Step 1: Accept Your Invitation
+
+You will receive an email from **Sanity** (no-reply@sanity.io) inviting you to the "Cafe Red Sapsuckers" project. Click the link in that email to create your free Sanity account.
+
+- You can sign up with **Google** (recommended -- use your existing email) or create a username/password
+- This is a one-time setup. After this, you just go to the Studio URL and you are logged in
+
+### Step 2: Open Sanity Studio
+
+Bookmark this link -- it is your content dashboard:
+
+**http://104.236.69.208:3333/**
+
+(This URL will move to a cleaner address once the domains are pointed to the new server.)
+
+### Step 3: Log In
+
+1. Go to the Studio URL above
+2. Click **Log in** (or **Sign in with Google** if you used Google to create your account)
+3. You will see the content dashboard with categories on the left sidebar
+
+If you are already logged in from accepting the invitation, the dashboard will load automatically.
+
+### Troubleshooting Login
+
+- **"You are not authorized"** -- Make sure you are using the same email address that received the Sanity invitation. If the problem persists, email andrew@brooklynstrategic.com.
+- **Forgot password** -- Click "Forgot password" on the Sanity login page, or sign in with Google instead.
+- **The page is blank or not loading** -- Try a different browser (Chrome recommended) or clear your cache.
+
+---
+
 ## Using Sanity Studio
 
-### Accessing the Dashboard
-
-1. Go to **https://cafe-red-sapsuckers.sanity.studio/** in your web browser
-2. Sign in with the Google account we set up during onboarding
-3. You will see the content dashboard with categories on the left sidebar
+### The Dashboard
 
 ### The Dashboard Layout
 
@@ -119,16 +149,54 @@ Past events will need to be manually removed or unpublished when they are over.
 
 ---
 
-## Managing Online Ordering & Menus
+## Managing Menus
 
-Your Menufy accounts handle BOTH online ordering AND the menu display. This is unchanged from before:
+Your website menus are now editable in Sanity Studio, giving you full control.
 
-- **Cafe Red orders & menu:** ordercafered.com
-- **Sapsuckers orders & menu:** ordersapsuckers.com
+### Editing Menu Items in Sanity
 
-When a customer clicks "Order Online" on your website, they are taken directly to your Menufy page. Any changes you make in Menufy (prices, items, availability, hours) take effect immediately.
+1. Click **Dishes** in the sidebar to see all menu items
+2. Click any dish to edit its name, price, or description
+3. Click **Publish** to save
 
-**The website menu page displays the current menu items.** If menu items or prices change significantly, let Brooklyn Strategic know and we will update the website menu page to match.
+### Adding a New Dish
+
+1. Click **Dishes** in the sidebar
+2. Click **+ Create**
+3. Fill in: **Name**, **Restaurant** (Sapsuckers or Cafe Red), **Price**, and optionally a **Description**
+4. Click **Publish**
+5. Then go to **Menu Sections**, find the section it belongs to (e.g., "Appetizers"), and add the new dish to the list
+
+### Removing a Dish
+
+1. Find the dish in **Dishes**
+2. Click the **...** menu in the top-right corner and choose **Unpublish** (hides it) or **Delete** (removes it permanently)
+3. If deleting, also remove it from the Menu Section it was in
+
+### Reordering Sections or Dishes
+
+- **Sections** have a **Sort Order** number -- lower numbers appear first on the menu page
+- **Dishes within a section** can be reordered by dragging them in the Menu Section editor
+
+### Syncing from Menufy (Optional)
+
+There is a "Sync from Menufy" tool that can automatically pull your current Menufy menu into Sanity. When run, it:
+- Compares Menufy prices/items against what is in Sanity
+- Creates **draft** entries for anything new or changed
+- You review the drafts and publish what you want
+
+This is a convenience feature -- you never have to use it. You can always edit menus directly in Sanity.
+
+## Online Ordering (Menufy)
+
+Your Menufy accounts handle online ordering. This is completely unchanged:
+
+- **Cafe Red:** ordercafered.com
+- **Sapsuckers:** ordersapsuckers.com
+
+When a customer clicks "Order Online" on your website, they go directly to your Menufy page. Any changes you make in Menufy (prices, items, delivery settings) take effect immediately on the ordering side.
+
+**Note:** Menufy and the website menu are separate. If you update a price in Menufy, you should also update it in Sanity so the website matches. Or ask us to run the Menufy sync tool.
 
 ---
 
@@ -201,7 +269,8 @@ If hours change seasonally or for holidays, update both:
 
 ### "I need to change a menu item or price"
 
-Update it in Menufy as you normally do. If it is a significant change (new section, many new items), let Brooklyn Strategic know and we will update the website menu page.
+1. Sanity Studio > Dishes > Find the item > Edit name, price, or description > Publish
+2. If you also use Menufy for online ordering, update it there too so both match
 
 ### "I need to update our hours"
 
@@ -236,7 +305,6 @@ Send photos to Brooklyn Strategic -- we will optimize and add them to the galler
 
 These changes need Brooklyn Strategic to implement:
 
-- **Gallery page layout** -- adding/removing/reordering gallery page photos
 - **Page structure changes** -- adding new pages, changing navigation
 - **Design changes** -- colors, fonts, layout modifications
 - **New integrations** -- adding Instagram feeds, email signup forms, etc.
@@ -263,14 +331,14 @@ andrew@brooklynstrategic.com
 
 | I want to... | Go to... |
 |---|---|
-| Change menu items or prices | Menufy (ordercafered.com / ordersapsuckers.com) |
+| Change menu items or prices | Sanity Studio > Dishes |
 | Update restaurant hours | Sanity Studio > Locations |
 | Edit about section text | Sanity Studio > Site Content |
 | Post an announcement banner | Sanity Studio > Site Content |
 | Add an event | Sanity Studio > Events > Create |
+| Update online ordering (Menufy) | ordercafered.com / ordersapsuckers.com |
 | Manage reservations | OpenTable |
-| Update gallery photos | Email Brooklyn Strategic |
-| Update website menu page | Email Brooklyn Strategic |
+| Update gallery photos | Sanity Studio > Gallery Sections (or email Brooklyn Strategic) |
 | Something looks broken | Email Brooklyn Strategic |
 
 ---

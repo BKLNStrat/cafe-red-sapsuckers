@@ -1,0 +1,36 @@
+To: kjdanek@aol.com
+From: andrew@brooklynstrategic.com
+Subject: Cafe Red & Sapsuckers - New Websites Ready for Review
+
+Hi Kelley,
+
+The new websites for Cafe Red and Sapsuckers are ready for your review:
+
+Cafe Red: http://104.236.69.208/cafe-red/
+Sapsuckers: http://104.236.69.208/sapsuckers/
+
+Everything is live -- menus, photo galleries, OpenTable reservations, Menufy online ordering, hours, and contact info. All of Vincent's photos are in there.
+
+Once you are happy with how everything looks, we will point the caferedli.com and sapsuckersli.com domains to the new server and the switch will be instant.
+
+
+CONTENT MANAGEMENT
+
+You will have your own login to a content management dashboard where you can update menus, hours, events, announcements, about text, and gallery photos -- no code, no developer needed for day-to-day changes.
+
+I have put together a full guide that walks through everything:
+
+http://104.236.69.208/cms-guide.html
+Password: RedCo2026
+
+No need to read it all before we talk. I would love to walk you through it together so you are comfortable with everything.
+
+
+NEXT STEP
+
+Would you have 30-45 minutes on Tuesday or Wednesday morning for a quick walkthrough call? I can walk you through both sites, the CMS dashboard, and get any feedback you have. I am open before noon either day.
+
+Looking forward to hearing what you think.
+
+Best,
+Andrew
