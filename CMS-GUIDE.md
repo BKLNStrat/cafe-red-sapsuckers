@@ -46,18 +46,18 @@ The sites are hosted on a dedicated server with SSL encryption. Your existing in
 
 Through Sanity Studio (no technical skills needed):
 
-- Menu items, descriptions, and prices (website display)
-- Events and specials
-- Photos in the gallery
+- About section text and headings
 - Restaurant hours
-- Contact information
+- Contact information and addresses
+- Events and specials announcements
+- Announcement banners (e.g., holiday closures, special events)
 
-Through Menufy (as you do now):
+Through Menufy (as you do now -- unchanged):
 
-- Online ordering menu, prices, availability
+- Menu items, prices, and availability (for both online ordering AND website display)
 - Delivery/pickup settings
 
-Through OpenTable (as you do now):
+Through OpenTable (as you do now -- unchanged):
 
 - Reservation availability and settings
 
@@ -75,44 +75,34 @@ Through OpenTable (as you do now):
 
 The left sidebar shows your content types:
 
-- **Dishes** -- Individual menu items (name, description, price, dietary tags, photo)
-- **Menu Sections** -- Groups of dishes (e.g., "Appetizers", "Entrees", "Brunch")
-- **Menus** -- Full menus made up of sections (e.g., "Sapsuckers Dinner Menu")
+- **Locations** -- Restaurant details (address, phone, hours, ordering/reservation URLs)
+- **Site Content** -- About section text, hero taglines, announcement banners
 - **Events** -- Upcoming events and specials
-- **Locations** -- Restaurant details (address, phone, hours)
 
-### Editing a Menu Item
+### Editing Hours
 
-1. Click **Dishes** in the sidebar
-2. Find the dish you want to edit (use the search bar at the top)
-3. Click on it to open the editor
-4. Make your changes:
-   - **Title** -- the dish name as it appears on the website
-   - **Description** -- a brief description (1-2 sentences)
-   - **Price** -- number only, no dollar sign (e.g., `14.95`)
-   - **Dietary Tags** -- check any that apply (Vegan, Vegetarian, Gluten-Free, etc.)
-   - **Image** -- click to upload or replace a photo
-5. Click **Publish** in the bottom-right corner
+1. Click **Locations** in the sidebar
+2. Select the restaurant (Sapsuckers or Cafe Red)
+3. Edit the **Hours** entries -- each row has "Days" and "Hours" fields
+4. Click **Publish** in the bottom-right corner
 
-Changes appear on the website within a few minutes.
+Changes appear on the website after the next rebuild (typically within minutes).
 
-### Adding a New Dish
+### Editing About Section Text
 
-1. Click **Dishes** in the sidebar
-2. Click the **+ Create** button (top-right or pencil icon)
-3. Fill in all fields
+1. Click **Site Content** in the sidebar
+2. Select the restaurant
+3. Edit the **About Section Heading** or **About Section Body**
+4. The body is rich text -- you can bold, italicize, and create paragraphs
+5. Click **Publish**
+
+### Adding an Announcement Banner
+
+1. Click **Site Content** in the sidebar
+2. Select the restaurant
+3. Fill in the **Announcement Banner** field (e.g., "Closed Dec 25 for Christmas")
 4. Click **Publish**
-5. Then add the dish to the appropriate **Menu Section** (see below)
-
-### Organizing Menu Sections
-
-1. Click **Menu Sections** in the sidebar
-2. Click the section you want to edit (e.g., "Appetizers")
-3. In the **Dishes** field, you can:
-   - Drag items to reorder them
-   - Click **Add item** to add a dish reference
-   - Click the X on any item to remove it from the section
-4. Click **Publish**
+5. To remove the banner, clear the field and publish again
 
 ### Adding an Event
 
@@ -129,16 +119,16 @@ Past events will need to be manually removed or unpublished when they are over.
 
 ---
 
-## Managing Online Ordering
+## Managing Online Ordering & Menus
 
-Your Menufy accounts are completely separate from the website and work exactly as before:
+Your Menufy accounts handle BOTH online ordering AND the menu display. This is unchanged from before:
 
-- **Cafe Red orders:** ordercafered.com
-- **Sapsuckers orders:** ordersapsuckers.com
+- **Cafe Red orders & menu:** ordercafered.com
+- **Sapsuckers orders & menu:** ordersapsuckers.com
 
-When a customer clicks "Order Online" on your website, they are taken directly to your Menufy page. Any changes you make in Menufy (prices, items, availability, hours) take effect immediately on the ordering side.
+When a customer clicks "Order Online" on your website, they are taken directly to your Menufy page. Any changes you make in Menufy (prices, items, availability, hours) take effect immediately.
 
-**Important:** The menu displayed on your *website* (for browsing) is managed separately in Sanity. If you change a price in Menufy, you should also update it in Sanity so the website matches. These are two separate systems.
+**The website menu page displays the current menu items.** If menu items or prices change significantly, let Brooklyn Strategic know and we will update the website menu page to match.
 
 ---
 
@@ -209,36 +199,36 @@ If hours change seasonally or for holidays, update both:
 
 ## Common Tasks
 
-### "I need to add a new dish to the menu"
+### "I need to change a menu item or price"
 
-1. Sanity Studio > Dishes > Create new dish (name, description, price)
-2. Sanity Studio > Menu Sections > Add the dish to the right section
-3. Update Menufy if the dish should also be available for online ordering
+Update it in Menufy as you normally do. If it is a significant change (new section, many new items), let Brooklyn Strategic know and we will update the website menu page.
 
-### "I need to change a price"
+### "I need to update our hours"
 
-1. Sanity Studio > Dishes > Find the dish > Update the price > Publish
-2. Update the same price in Menufy
+1. Sanity Studio > Locations > Select restaurant > Edit hours > Publish
+2. Also update Google Business Profile and OpenTable
 
 ### "I need to post about an upcoming event"
 
 1. Sanity Studio > Events > Create new event with details and date
 2. Publish -- it will appear on the website
 
-### "I need to update our hours for a holiday"
+### "I need to announce a holiday closure or special"
 
-1. Sanity Studio > Locations > Edit hours > Publish
-2. Also update Google Business Profile and OpenTable
+1. Sanity Studio > Site Content > Select restaurant
+2. Fill in the Announcement Banner field
+3. Publish
+4. Clear and republish when the announcement is over
+
+### "I want to update the about section text"
+
+1. Sanity Studio > Site Content > Select restaurant
+2. Edit the About Section Heading or Body
+3. Publish
 
 ### "I want to add new photos from a recent photoshoot"
 
-1. For menu item photos: upload directly in Sanity (edit the dish, replace image)
-2. For gallery page: send photos to Brooklyn Strategic
-
-### "A menu section needs to be reorganized"
-
-1. Sanity Studio > Menu Sections > Drag dishes to reorder
-2. Publish
+Send photos to Brooklyn Strategic -- we will optimize and add them to the gallery.
 
 ---
 
@@ -273,14 +263,14 @@ andrew@brooklynstrategic.com
 
 | I want to... | Go to... |
 |---|---|
-| Edit a menu item or price | Sanity Studio > Dishes |
-| Add a new dish | Sanity Studio > Dishes > Create |
-| Reorder menu items | Sanity Studio > Menu Sections |
+| Change menu items or prices | Menufy (ordercafered.com / ordersapsuckers.com) |
+| Update restaurant hours | Sanity Studio > Locations |
+| Edit about section text | Sanity Studio > Site Content |
+| Post an announcement banner | Sanity Studio > Site Content |
 | Add an event | Sanity Studio > Events > Create |
-| Change hours | Sanity Studio > Locations |
-| Update online ordering menu | Menufy (ordercafered.com / ordersapsuckers.com) |
 | Manage reservations | OpenTable |
 | Update gallery photos | Email Brooklyn Strategic |
+| Update website menu page | Email Brooklyn Strategic |
 | Something looks broken | Email Brooklyn Strategic |
 
 ---
