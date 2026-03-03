@@ -74,7 +74,7 @@ if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
     { src: '/sapsuckers/SAPSUCKERS5starsv2-45.jpg', alt: 'Branded vehicle' },
   ];
   gallerySections = [
-    { title: 'From the Kitchen', photos: foodPhotos, aspect: 'aspect-square', columns: 4 },
+    { title: 'From the Kitchen', photos: foodPhotos, aspect: 'aspect-[4/3]', columns: 3 },
     { title: 'On Tap', photos: drinkPhotos, aspect: 'aspect-[4/3]', columns: 3 },
     { title: 'The Space', photos: ambiancePhotos, aspect: 'aspect-[4/3]', columns: 3 },
   ];
@@ -98,9 +98,9 @@ if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
     <section class={`py-16 ${si % 2 === 0 ? 'bg-stone-50' : 'bg-white'}`}>
       <div class="max-w-6xl mx-auto px-4">
         <h2 class="text-2xl md:text-3xl font-display font-bold text-gray-900 mb-8">{section.title}</h2>
-        <div class={`grid grid-cols-2 md:grid-cols-${section.columns} gap-3 md:gap-4`}>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {section.photos.map(photo => (
-            <div class={`group relative overflow-hidden rounded-lg ${section.aspect}`} data-lightbox>
+            <div class="group relative overflow-hidden rounded-lg aspect-[4/3]" data-lightbox>
               <img
                 src={photo.src}
                 alt={photo.alt}
