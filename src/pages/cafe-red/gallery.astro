@@ -37,7 +37,7 @@ try {
   // Sanity unavailable, use fallback
 }
 
-if (!gallerySections.length) {
+if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
   const foodPhotos = [
     { src: '/cafe-red/CAFERED5starsv2-35.jpg', alt: 'Steak with asparagus and fries' },
     { src: '/cafe-red/CAFERED5starsv2-20.jpg', alt: 'Spaghetti and meatballs' },

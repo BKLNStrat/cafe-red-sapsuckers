@@ -39,7 +39,7 @@ try {
 }
 
 // Fallback: static photos
-if (!gallerySections.length) {
+if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
   const foodPhotos = [
     { src: '/sapsuckers/SAPSUCKERS5starsv2-6.jpg', alt: 'Gourmet burger with fries' },
     { src: '/sapsuckers/SAPSUCKERS5starsv2-17.jpg', alt: 'Cuban sandwich' },
