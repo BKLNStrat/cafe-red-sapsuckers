@@ -1,5 +1,7 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+import { getLocation } from '../../lib/locations';
+const loc = await getLocation('cafe-red');
 ---
 <CafeRedLayout title="Cafe Red | Italian-American Dining | Kings Park, NY" currentPage="home">
   <!-- Hero -->
@@ -103,7 +105,7 @@ import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
     <div class="relative z-10 text-center text-white px-4">
       <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Join Us in Kings Park</h2>
       <p class="text-lg opacity-80 mb-2">2 Pulaski Rd, Kings Park, NY 11754</p>
-      <p class="text-lg opacity-80 mb-8">(631) 544-4500</p>
+      <p class="text-lg opacity-80 mb-8">{loc.phone}</p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href="https://www.ordercafered.com/"

@@ -1,5 +1,7 @@
 ---
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { getLocation } from '../../lib/locations';
+const loc = await getLocation('sapsuckers');
 ---
 <SapsuckersLayout title="Sapsuckers - Hops & Grub | Huntington, NY" currentPage="home">
   <!-- Hero -->
@@ -104,7 +106,7 @@ import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
     <div class="relative z-10 text-center text-white px-4">
       <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Visit Us in Huntington Village</h2>
       <p class="text-lg opacity-80 mb-2">287 Main St, Huntington, NY 11743</p>
-      <p class="text-lg opacity-80 mb-8">(631) 923-3065</p>
+      <p class="text-lg opacity-80 mb-8">{loc.phone}</p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href="https://www.ordersapsuckers.com/"

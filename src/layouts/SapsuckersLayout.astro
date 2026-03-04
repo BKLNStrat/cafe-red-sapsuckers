@@ -1,5 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { getLocation } from '../lib/locations';
+
+const loc = await getLocation('sapsuckers');
 
 interface Props {
   title: string;
@@ -30,7 +33,7 @@ const navLinks = [
       "postalCode": "11743",
       "addressCountry": "US"
     },
-    "telephone": "+16319233065",
+    "telephone": loc.phoneTel,
     "url": "https://sapsuckersli.com",
     "servesCuisine": ["American", "Gastropub", "Craft Beer"],
     "priceRange": "$$",
@@ -154,7 +157,7 @@ const navLinks = [
           <div class="text-sm space-y-1 text-gray-400">
             <p>287 Main St</p>
             <p>Huntington, NY 11743</p>
-            <p class="pt-2">(631) 923-3065</p>
+            <p class="pt-2">{loc.phone}</p>
           </div>
           <div class="flex gap-4 mt-4">
             <a href="#" class="text-gray-500 hover:text-white transition" aria-label="Facebook">

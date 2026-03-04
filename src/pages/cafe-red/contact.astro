@@ -1,7 +1,9 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+import { getLocation } from '../../lib/locations';
+const loc = await getLocation('cafe-red');
 ---
-<CafeRedLayout title="Contact | Cafe Red" description="Find Cafe Red at 2 Pulaski Rd, Kings Park, NY 11754. Open 7 days. Call (631) 544-4500 or reserve on OpenTable." currentPage="contact">
+<CafeRedLayout title="Contact | Cafe Red" description={`Find Cafe Red at 2 Pulaski Rd, Kings Park, NY 11754. Open 7 days. Call ${loc.phone} or reserve on OpenTable.`} currentPage="contact">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
     <img
@@ -31,7 +33,7 @@ import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
 
             <div>
               <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Phone</h3>
-              <a href="tel:6315444500" class="text-lg text-gray-900 hover:underline">(631) 544-4500</a>
+              <a href={`tel:${loc.phoneTel.replace('+', '')}`} class="text-lg text-gray-900 hover:underline">{loc.phone}</a>
             </div>
 
             <div>

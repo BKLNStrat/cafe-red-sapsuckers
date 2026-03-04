@@ -1,7 +1,9 @@
 ---
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { getLocation } from '../../lib/locations';
+const loc = await getLocation('sapsuckers');
 ---
-<SapsuckersLayout title="Contact | Sapsuckers - Hops & Grub" description="Find Sapsuckers at 287 Main St, Huntington Village, NY 11743. Open 7 days, 12-10pm. Call (631) 923-3065 or reserve on OpenTable." currentPage="contact">
+<SapsuckersLayout title="Contact | Sapsuckers - Hops & Grub" description={`Find Sapsuckers at 287 Main St, Huntington Village, NY 11743. Open 7 days, 12-10pm. Call ${loc.phone} or reserve on OpenTable.`} currentPage="contact">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
     <img
@@ -31,7 +33,7 @@ import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
 
             <div>
               <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Phone</h3>
-              <a href="tel:6319233065" class="text-lg text-gray-900 hover:underline">(631) 923-3065</a>
+              <a href={`tel:${loc.phoneTel.replace('+', '')}`} class="text-lg text-gray-900 hover:underline">{loc.phone}</a>
             </div>
 
             <div>
