@@ -1,5 +1,10 @@
 import { sanityClient } from 'sanity:client';
 
+export interface HoursEntry {
+  days: string;
+  hours: string;
+}
+
 export interface LocationData {
   name: string;
   phone: string;
@@ -8,16 +13,18 @@ export interface LocationData {
   city: string;
   state: string;
   zip: string;
-  hours: string;
+  email: string;
+  hours: HoursEntry[];
   orderUrl: string;
   reservationUrl: string;
+  mapEmbedUrl: string;
 }
 
 export interface SiteContentData {
   heroTagline: string;
   aboutHeading: string;
   aboutBody: string;
-  announcementBanner: string;
+  announcement: string;
 }
 
 const LOCATION_DEFAULTS: Record<string, LocationData> = {
@@ -29,9 +36,14 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     city: 'Huntington',
     state: 'NY',
     zip: '11743',
-    hours: '',
+    email: '',
+    hours: [
+      { days: 'Open 7 Days', hours: '12pm - 10pm' },
+      { days: 'Fri & Sat Late Night Happy Hour', hours: '10pm - 11pm' },
+    ],
     orderUrl: 'https://www.ordersapsuckers.com/',
     reservationUrl: 'https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington',
+    mapEmbedUrl: '',
   },
   'cafe-red': {
     name: 'Cafe Red',
@@ -41,56 +53,36 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     city: 'Kings Park',
     state: 'NY',
     zip: '11754',
-    hours: '',
+    email: '',
+    hours: [
+      { days: 'Mon - Thu', hours: '11am - 9pm' },
+      { days: 'Friday', hours: '11am - 10pm' },
+      { days: 'Saturday', hours: '10am - 10pm' },
+      { days: 'Sunday', hours: '10am - 8pm' },
+    ],
     orderUrl: 'https://www.ordercafered.com/',
     reservationUrl: 'https://www.opentable.com/r/cafe-red-of-kings-park',
+    mapEmbedUrl: '',
   },
 };
 
 const CONTENT_DEFAULTS: Record<string, SiteContentData> = {
   sapsuckers: {
     heroTagline: 'Migrate Less, Drink Local',
-    aboutHeading: 'Craft Beer. Gastropub Grub. Good Times.',
-    aboutBody: 'Sixteen rotating taps of the best craft beers. Handcrafted burgers, wings, and creative American comfort food. A place where everyone knows your name. Welcome to Sapsuckers.',
-    announcementBanner: '',
+    aboutHeading: 'Your Neighborhood Favorite Since 2010',
+    aboutBody: 'Hatched in September 2010, Sapsuckers has become a neighborhood favorite for awesome hops & grub.',
+    announcement: '',
   },
   'cafe-red': {
     heroTagline: 'New American Cuisine with Italian Flair',
     aboutHeading: 'Where Every Meal Tells a Story',
-    aboutBody: 'From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park. Full liquor license -- enjoy cocktails, wine, and beer with your lunch or dinner.',
-    announcementBanner: '',
+    aboutBody: 'From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park.',
+    announcement: '',
   },
 };
 
 function phoneToTel(phone: string): string {
   return '+1' + phone.replace(/\D/g, '');
-}
-
-export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promise<LocationData> {
-  const defaults = LOCATION_DEFAULTS[restaurant];
-  try {
-    const data = await sanityClient.fetch(
-      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, hours, orderUrl, reservationUrl }`,
-      { id: `location-${restaurant}` }
-    );
-    if (data) {
-      return {
-        name: data.name || defaults.name,
-        phone: data.phone || defaults.phone,
-        phoneTel: data.phone ? phoneToTel(data.phone) : defaults.phoneTel,
-        address: data.address || defaults.address,
-        city: data.city || defaults.city,
-        state: data.state || defaults.state,
-        zip: data.zip || defaults.zip,
-        hours: data.hours || defaults.hours,
-        orderUrl: data.orderUrl || defaults.orderUrl,
-        reservationUrl: data.reservationUrl || defaults.reservationUrl,
-      };
-    }
-  } catch (e) {
-    // Sanity unavailable
-  }
-  return defaults;
 }
 
 function blocksToText(blocks: any): string {
@@ -102,11 +94,43 @@ function blocksToText(blocks: any): string {
     .join('\n\n');
 }
 
+export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promise<LocationData> {
+  const defaults = LOCATION_DEFAULTS[restaurant];
+  try {
+    const data = await sanityClient.fetch(
+      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl }`,
+      { id: `location-${restaurant}` }
+    );
+    if (data) {
+      const hours = Array.isArray(data.hours) && data.hours.length > 0
+        ? data.hours.map((h: any) => ({ days: h.days || '', hours: h.hours || '' }))
+        : defaults.hours;
+      return {
+        name: data.name || defaults.name,
+        phone: data.phone || defaults.phone,
+        phoneTel: data.phone ? phoneToTel(data.phone) : defaults.phoneTel,
+        address: data.address || defaults.address,
+        city: data.city || defaults.city,
+        state: data.state || defaults.state,
+        zip: data.zip || defaults.zip,
+        email: data.email || defaults.email,
+        hours,
+        orderUrl: data.orderUrl || defaults.orderUrl,
+        reservationUrl: data.reservationUrl || defaults.reservationUrl,
+        mapEmbedUrl: data.mapEmbedUrl || defaults.mapEmbedUrl,
+      };
+    }
+  } catch (e) {
+    // Sanity unavailable
+  }
+  return defaults;
+}
+
 export async function getSiteContent(restaurant: 'sapsuckers' | 'cafe-red'): Promise<SiteContentData> {
   const defaults = CONTENT_DEFAULTS[restaurant];
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "siteContent" && _id == $id][0]{ heroTagline, aboutHeading, aboutBody, announcementBanner }`,
+      `*[_type == "siteContent" && _id == $id][0]{ heroTagline, aboutHeading, aboutBody, announcement }`,
       { id: `content-${restaurant}` }
     );
     if (data) {
@@ -114,7 +138,7 @@ export async function getSiteContent(restaurant: 'sapsuckers' | 'cafe-red'): Pro
         heroTagline: data.heroTagline || defaults.heroTagline,
         aboutHeading: data.aboutHeading || defaults.aboutHeading,
         aboutBody: blocksToText(data.aboutBody) || defaults.aboutBody,
-        announcementBanner: data.announcementBanner || '',
+        announcement: data.announcement || '',
       };
     }
   } catch (e) {

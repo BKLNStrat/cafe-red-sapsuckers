@@ -1,8 +1,16 @@
 ---
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { sanityClient } from 'sanity:client';
 import { getLocation, getSiteContent } from '../../lib/locations';
 const loc = await getLocation('sapsuckers');
 const content = await getSiteContent('sapsuckers');
+
+let events: any[] = [];
+try {
+  events = await sanityClient.fetch(
+    `*[_type == "event" && restaurant == "sapsuckers" && date >= now()] | order(date asc) [0...3] { title, date, description }`
+  ) || [];
+} catch (e) { /* no events */ }
 ---
 <SapsuckersLayout title="Sapsuckers - Hops & Grub | Huntington, NY" currentPage="home">
   <!-- Hero -->
@@ -95,6 +103,23 @@ const content = await getSiteContent('sapsuckers');
       </div>
     </div>
   </section>
+
+  {events.length > 0 && (
+    <section class="py-16 md:py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-8">Upcoming Events</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          {events.map((event) => (
+            <div class="border border-gray-200 rounded-lg p-6">
+              <p class="text-sm text-gray-500 mb-2">{new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
+              {event.description && <p class="text-gray-600">{event.description}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- Location Banner -->
   <section class="relative py-20 md:py-28">

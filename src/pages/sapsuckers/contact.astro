@@ -39,18 +39,12 @@ const loc = await getLocation('sapsuckers');
             <div>
               <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Hours</h3>
               <div class="space-y-2 text-gray-700">
-                <div class="flex justify-between max-w-xs">
-                  <span>Monday - Thursday</span>
-                  <span>12pm - 10pm</span>
-                </div>
-                <div class="flex justify-between max-w-xs">
-                  <span>Friday - Saturday</span>
-                  <span>12pm - 11pm</span>
-                </div>
-                <div class="flex justify-between max-w-xs">
-                  <span>Sunday</span>
-                  <span>12pm - 9pm</span>
-                </div>
+                {loc.hours.map((h) => (
+                  <div class="flex justify-between max-w-xs">
+                    <span>{h.days}</span>
+                    <span>{h.hours}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -79,7 +73,7 @@ const loc = await getLocation('sapsuckers');
         <div>
           <div class="bg-gray-200 rounded-lg overflow-hidden aspect-square md:aspect-auto md:h-full min-h-[300px]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3018.5!2d-73.4257!3d40.8682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e8287e8e0a4c4b%3A0x1234567890!2s70+Gerard+St%2C+Huntington%2C+NY+11743!5e0!3m2!1sen!2sus!4v1234567890"
+              src={loc.mapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3018.5!2d-73.4257!3d40.8682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e8287e8e0a4c4b%3A0x1234567890!2s70+Gerard+St%2C+Huntington%2C+NY+11743!5e0!3m2!1sen!2sus!4v1234567890"}
               width="100%"
               height="100%"
               style="border:0; min-height: 300px;"

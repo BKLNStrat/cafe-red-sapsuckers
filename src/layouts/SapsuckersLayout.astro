@@ -21,6 +21,11 @@ const navLinks = [
 ];
 ---
 <BaseLayout title={title} description={description}>
+  {content.announcement && (
+    <div class="bg-gray-900 text-white text-center text-sm py-2 px-4">
+      {content.announcement}
+    </div>
+  )}
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Restaurant",
@@ -149,8 +154,9 @@ const navLinks = [
         <div>
           <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Hours</h3>
           <div class="text-sm space-y-1 text-gray-400">
-            <p>Open 7 Days: 12pm - 10pm</p>
-            <p>Fri & Sat Late Night Happy Hour: 10pm - 11pm</p>
+            {loc.hours.map((h) => (
+              <p>{h.days}: {h.hours}</p>
+            ))}
           </div>
         </div>
         <div>
