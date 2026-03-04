@@ -115,6 +115,17 @@ CONTENT = [
     ('spacer', ''),
     ('body', 'Photos look best in landscape orientation (wider than tall), at least 1200 pixels wide, in JPEG format.'),
 
+    ('heading', 'HOW TO SYNC YOUR MENU FROM MENUFY'),
+    ('body', 'If you update your menu on Menufy (for online ordering) and want the website to match, you can pull those changes in automatically.'),
+    ('spacer', ''),
+    ('bullet', 'In the dashboard, click "Sync from Menufy" in the left sidebar'),
+    ('bullet', 'Click the button for whichever restaurant you want to sync (or "Sync Both")'),
+    ('bullet', 'Wait about 15 seconds while it reads your Menufy menu'),
+    ('bullet', 'You will see a summary of what changed \u2014 new items, updated prices, etc.'),
+    ('bullet', 'Changes are saved as drafts. Go to "Dishes" to review them and click "Publish" on each one you want to keep'),
+    ('spacer', ''),
+    ('body', 'This does not change anything on Menufy itself. It only copies data from Menufy into your website dashboard. You are always in control of what gets published to the website.'),
+
     ('heading', 'ONLINE ORDERING AND RESERVATIONS'),
     ('body', 'These systems are completely separate from the website and work exactly as they did before:'),
     ('spacer', ''),
@@ -135,7 +146,6 @@ CONTENT = [
     ('bullet', 'Changing the design \u2014 colors, fonts, or layout'),
     ('bullet', 'Adding new features like Instagram feeds, email signup forms, or gift card integration'),
     ('bullet', 'Domain changes, SSL certificates, or server configuration'),
-    ('bullet', 'Syncing menus from Menufy (we have a tool that pulls your current Menufy menu into the dashboard automatically \u2014 just ask and we will run it)'),
 
     ('heading', 'ONGOING SUPPORT AND MAINTENANCE'),
     ('body', 'Your project includes 60 days of post-launch support at no additional cost. During this period, we handle bug fixes, content adjustments, and any questions about using the dashboard.'),
@@ -159,6 +169,7 @@ CONTENT = [
     ('bullet', 'Post an announcement \u2192 Dashboard > Site Content > Announcement Banner'),
     ('bullet', 'Add an event \u2192 Dashboard > Events > + Create'),
     ('bullet', 'Update photos \u2192 Dashboard > Gallery Sections'),
+    ('bullet', 'Sync menu from Menufy \u2192 Dashboard > Sync from Menufy'),
     ('bullet', 'Online ordering \u2192 ordercafered.com / ordersapsuckers.com'),
     ('bullet', 'Reservations \u2192 OpenTable'),
     ('bullet', 'Need help \u2192 Email or call Brooklyn Strategic'),
