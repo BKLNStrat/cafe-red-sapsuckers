@@ -1,7 +1,8 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
-import { getLocation } from '../../lib/locations';
+import { getLocation, getSiteContent } from '../../lib/locations';
 const loc = await getLocation('cafe-red');
+const content = await getSiteContent('cafe-red');
 ---
 <CafeRedLayout title="Cafe Red | Italian-American Dining | Kings Park, NY" currentPage="home">
   <!-- Hero -->
@@ -18,7 +19,7 @@ const loc = await getLocation('cafe-red');
       <p class="mt-1 text-sm md:text-base font-light tracking-widest uppercase opacity-60">Brunch -- Lunch -- Dinner</p>
       <div class="flex flex-col sm:flex-row gap-3 mt-8">
         <a
-          href="https://www.ordercafered.com/"
+          href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 bg-white text-red-900 font-semibold rounded hover:bg-red-50 transition text-sm"
@@ -26,7 +27,7 @@ const loc = await getLocation('cafe-red');
           Order Online
         </a>
         <a
-          href="https://www.opentable.com/r/cafe-red-of-kings-park"
+          href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-red-900 transition text-sm"
@@ -49,7 +50,7 @@ const loc = await getLocation('cafe-red');
             A warm, woodsy spot with a full bar serving Italian fare and creative takes on American eats. Our kitchen showcases local and organic ingredients to create a menu of refined new American fare.
           </p>
           <p class="text-gray-600 leading-relaxed mb-4">
-            From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park. Full liquor license -- enjoy cocktails, wine, and beer with your lunch or dinner.
+            {content.aboutBody || 'From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park. Full liquor license -- enjoy cocktails, wine, and beer with your lunch or dinner.'}
           </p>
           <p class="text-gray-600 leading-relaxed mb-8">
             Open seven days for brunch, lunch, and dinner. Call ahead for reservations or curbside pickup.
@@ -103,12 +104,12 @@ const loc = await getLocation('cafe-red');
     />
     <div class="absolute inset-0 bg-red-950/60"></div>
     <div class="relative z-10 text-center text-white px-4">
-      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Join Us in Kings Park</h2>
-      <p class="text-lg opacity-80 mb-2">2 Pulaski Rd, Kings Park, NY 11754</p>
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Join Us in {loc.city}</h2>
+      <p class="text-lg opacity-80 mb-2">{loc.address}, {loc.city}, {loc.state} {loc.zip}</p>
       <p class="text-lg opacity-80 mb-8">{loc.phone}</p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href="https://www.ordercafered.com/"
+          href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 bg-white text-red-900 font-semibold rounded hover:bg-red-50 transition text-sm"
@@ -116,7 +117,7 @@ const loc = await getLocation('cafe-red');
           Order Online
         </a>
         <a
-          href="https://www.opentable.com/r/cafe-red-of-kings-park"
+          href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-red-900 transition text-sm"

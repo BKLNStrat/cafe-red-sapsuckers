@@ -1,8 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { getLocation } from '../lib/locations';
+import { getLocation, getSiteContent } from '../lib/locations';
 
 const loc = await getLocation('cafe-red');
+const content = await getSiteContent('cafe-red');
 
 interface Props {
   title: string;
@@ -23,14 +24,14 @@ const navLinks = [
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Restaurant",
-    "name": "Cafe Red",
+    "name": loc.name,
     "image": "https://caferedli.com/cafe-red/CAFERED5starsv2-4.jpg",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "2 Pulaski Rd",
-      "addressLocality": "Kings Park",
-      "addressRegion": "NY",
-      "postalCode": "11754",
+      "streetAddress": loc.address,
+      "addressLocality": loc.city,
+      "addressRegion": loc.state,
+      "postalCode": loc.zip,
       "addressCountry": "US"
     },
     "telephone": loc.phoneTel,
@@ -44,10 +45,10 @@ const navLinks = [
       { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "20:00" }
     ],
     "acceptsReservations": "True",
-    "menu": "https://www.ordercafered.com/",
+    "menu": loc.orderUrl,
     "hasMenu": {
       "@type": "Menu",
-      "url": "https://www.ordercafered.com/"
+      "url": loc.orderUrl
     }
   })} />
   <header class="bg-white border-b border-red-100 sticky top-0 z-50">
@@ -76,7 +77,7 @@ const navLinks = [
           </a>
         ))}
         <a
-          href="https://www.ordercafered.com/"
+          href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="text-sm font-semibold px-4 py-2 bg-red-900 text-white rounded hover:bg-red-800 transition"
@@ -84,7 +85,7 @@ const navLinks = [
           Order Online
         </a>
         <a
-          href="https://www.opentable.com/r/cafe-red-of-kings-park"
+          href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="text-sm font-semibold px-4 py-2 border border-red-900 text-red-900 rounded hover:bg-red-900 hover:text-white transition"
@@ -108,7 +109,7 @@ const navLinks = [
         ))}
         <div class="pt-3 space-y-2 border-t border-red-50">
           <a
-            href="https://www.ordercafered.com/"
+            href={loc.orderUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="block text-center text-sm font-semibold px-4 py-2 bg-red-900 text-white rounded"
@@ -116,7 +117,7 @@ const navLinks = [
             Order Online
           </a>
           <a
-            href="https://www.opentable.com/r/cafe-red-of-kings-park"
+            href={loc.reservationUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="block text-center text-sm font-semibold px-4 py-2 border border-red-900 text-red-900 rounded"
@@ -138,7 +139,7 @@ const navLinks = [
         <div>
           <h2 class="text-xl font-display font-bold text-white mb-4">Cafe Red</h2>
           <p class="text-sm text-red-300 leading-relaxed">
-            Upscale casual Italian-American dining in the heart of Kings Park. Fresh ingredients, warm ambiance, unforgettable meals.
+            {content.aboutBody || 'Upscale casual Italian-American dining in the heart of Kings Park. Fresh ingredients, warm ambiance, unforgettable meals.'}
           </p>
         </div>
         <div>
@@ -153,8 +154,8 @@ const navLinks = [
         <div>
           <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Location</h3>
           <div class="text-sm space-y-1 text-red-300">
-            <p>2 Pulaski Rd</p>
-            <p>Kings Park, NY 11754</p>
+            <p>{loc.address}</p>
+            <p>{loc.city}, {loc.state} {loc.zip}</p>
             <p class="pt-2">{loc.phone}</p>
           </div>
           <div class="flex gap-4 mt-4">

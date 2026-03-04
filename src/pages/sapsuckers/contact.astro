@@ -3,7 +3,7 @@ import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
 import { getLocation } from '../../lib/locations';
 const loc = await getLocation('sapsuckers');
 ---
-<SapsuckersLayout title="Contact | Sapsuckers - Hops & Grub" description={`Find Sapsuckers at 287 Main St, Huntington Village, NY 11743. Open 7 days, 12-10pm. Call ${loc.phone} or reserve on OpenTable.`} currentPage="contact">
+<SapsuckersLayout title="Contact | Sapsuckers - Hops & Grub" description={`Find Sapsuckers at ${loc.address}, ${loc.city}, ${loc.state} ${loc.zip}. Call ${loc.phone} or reserve on OpenTable.`} currentPage="contact">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
     <img
@@ -27,8 +27,8 @@ const loc = await getLocation('sapsuckers');
           <div class="space-y-8">
             <div>
               <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-3">Address</h3>
-              <p class="text-lg text-gray-900">287 Main St</p>
-              <p class="text-lg text-gray-900">Huntington, NY 11743</p>
+              <p class="text-lg text-gray-900">{loc.address}</p>
+              <p class="text-lg text-gray-900">{loc.city}, {loc.state} {loc.zip}</p>
             </div>
 
             <div>
@@ -56,7 +56,7 @@ const loc = await getLocation('sapsuckers');
 
             <div class="flex flex-col sm:flex-row gap-3 pt-4">
               <a
-                href="https://www.ordersapsuckers.com/"
+                href={loc.orderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-center px-6 py-3 bg-gray-900 text-white font-semibold rounded hover:bg-gray-700 transition text-sm"
@@ -64,7 +64,7 @@ const loc = await getLocation('sapsuckers');
                 Order Online
               </a>
               <a
-                href="https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington"
+                href={loc.reservationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-center px-6 py-3 border border-gray-900 text-gray-900 font-semibold rounded hover:bg-gray-900 hover:text-white transition text-sm"

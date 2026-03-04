@@ -1,7 +1,8 @@
 ---
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
-import { getLocation } from '../../lib/locations';
+import { getLocation, getSiteContent } from '../../lib/locations';
 const loc = await getLocation('sapsuckers');
+const content = await getSiteContent('sapsuckers');
 ---
 <SapsuckersLayout title="Sapsuckers - Hops & Grub | Huntington, NY" currentPage="home">
   <!-- Hero -->
@@ -16,10 +17,10 @@ const loc = await getLocation('sapsuckers');
       <img src="/brand/Sapsuckers_Hops_White.png" alt="Sapsuckers hops" class="h-14 md:h-20 w-auto mb-4" />
       <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight">Sapsuckers</h1>
       <p class="text-base md:text-lg font-light tracking-[0.3em] uppercase opacity-80 mt-2">Hops & Grub</p>
-      <p class="text-lg md:text-xl font-light tracking-widest uppercase opacity-70 mt-4">Migrate Less, Drink Local</p>
+      <p class="text-lg md:text-xl font-light tracking-widest uppercase opacity-70 mt-4">{content.heroTagline}</p>
       <div class="flex flex-col sm:flex-row gap-3 mt-8">
         <a
-          href="https://www.ordersapsuckers.com/"
+          href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 bg-white text-gray-900 font-semibold rounded hover:bg-gray-100 transition text-sm"
@@ -27,7 +28,7 @@ const loc = await getLocation('sapsuckers');
           Order Online
         </a>
         <a
-          href="https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington"
+          href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-gray-900 transition text-sm"
@@ -44,7 +45,7 @@ const loc = await getLocation('sapsuckers');
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
           <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-6">
-            Your Neighborhood Favorite Since 2010
+            {content.aboutHeading || 'Your Neighborhood Favorite Since 2010'}
           </h2>
           <p class="text-gray-600 leading-relaxed mb-4">
             Hatched in September 2010, Sapsuckers has become a neighborhood favorite for awesome hops & grub. We keep sixteen lines of craft beers rotating -- all small production and special, many rare and extremely limited. Our Field Guide To Beer gives each one the respect it deserves.
@@ -104,12 +105,12 @@ const loc = await getLocation('sapsuckers');
     />
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 text-center text-white px-4">
-      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Visit Us in Huntington Village</h2>
-      <p class="text-lg opacity-80 mb-2">287 Main St, Huntington, NY 11743</p>
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Visit Us in {loc.city}</h2>
+      <p class="text-lg opacity-80 mb-2">{loc.address}, {loc.city}, {loc.state} {loc.zip}</p>
       <p class="text-lg opacity-80 mb-8">{loc.phone}</p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href="https://www.ordersapsuckers.com/"
+          href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 bg-white text-gray-900 font-semibold rounded hover:bg-gray-100 transition text-sm"
@@ -117,7 +118,7 @@ const loc = await getLocation('sapsuckers');
           Order Online
         </a>
         <a
-          href="https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington"
+          href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-gray-900 transition text-sm"
