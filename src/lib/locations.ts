@@ -28,6 +28,7 @@ export interface SiteContentData {
   aboutHeading: string;
   aboutBody: string;
   announcement: string;
+  ga4MeasurementId: string;
 }
 
 const LOCATION_DEFAULTS: Record<string, LocationData> = {
@@ -81,12 +82,14 @@ const CONTENT_DEFAULTS: Record<string, SiteContentData> = {
     aboutHeading: 'Your Neighborhood Favorite Since 2010',
     aboutBody: 'Hatched in September 2010, Sapsuckers has become a neighborhood favorite for awesome hops & grub.',
     announcement: '',
+    ga4MeasurementId: '',
   },
   'cafe-red': {
     heroTagline: 'New American Cuisine with Italian Flair',
     aboutHeading: 'Where Every Meal Tells a Story',
     aboutBody: 'From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park.',
     announcement: '',
+    ga4MeasurementId: '',
   },
 };
 
@@ -142,7 +145,7 @@ export async function getSiteContent(restaurant: 'sapsuckers' | 'cafe-red'): Pro
   const defaults = CONTENT_DEFAULTS[restaurant];
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "siteContent" && _id == $id][0]{ heroTagline, aboutHeading, aboutBody, announcement }`,
+      `*[_type == "siteContent" && _id == $id][0]{ heroTagline, aboutHeading, aboutBody, announcement, ga4MeasurementId }`,
       { id: `content-${restaurant}` }
     );
     if (data) {
@@ -151,6 +154,7 @@ export async function getSiteContent(restaurant: 'sapsuckers' | 'cafe-red'): Pro
         aboutHeading: data.aboutHeading || defaults.aboutHeading,
         aboutBody: blocksToText(data.aboutBody) || defaults.aboutBody,
         announcement: data.announcement || '',
+        ga4MeasurementId: data.ga4MeasurementId || '',
       };
     }
   } catch (e) {

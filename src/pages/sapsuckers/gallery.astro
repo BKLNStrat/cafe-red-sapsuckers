@@ -83,8 +83,7 @@ if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
 <SapsuckersLayout title="Gallery | Sapsuckers - Hops & Grub" description="Photos of craft beers, gastropub dishes, and the warm interior at Sapsuckers in Huntington, NY." currentPage="gallery">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
-    <img
-      src="/sapsuckers/SAPSUCKERS5starsv2-50.jpg"
+    <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-50.jpg"
       alt="Craft beers at Sapsuckers"
       class="absolute inset-0 w-full h-full object-cover"
     />
@@ -101,8 +100,7 @@ if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {section.photos.map(photo => (
             <div class="group relative overflow-hidden rounded-lg aspect-[4/3]" data-lightbox>
-              <img
-                src={photo.src}
+              <img loading="lazy" src={photo.src}
                 alt={photo.alt}
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 loading="lazy"

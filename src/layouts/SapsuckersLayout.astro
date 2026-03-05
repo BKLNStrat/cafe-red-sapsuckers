@@ -17,10 +17,22 @@ const navLinks = [
   { href: '/sapsuckers/', label: 'Home' },
   { href: '/sapsuckers/menu/', label: 'Menu' },
   { href: '/sapsuckers/gallery/', label: 'Gallery' },
+  { href: '/sapsuckers/faq/', label: 'FAQ' },
   { href: '/sapsuckers/contact/', label: 'Contact' },
 ];
 ---
 <BaseLayout title={title} description={description}>
+  {content.ga4MeasurementId && (
+    <Fragment slot="head">
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${content.ga4MeasurementId}`}></script>
+      <script is:inline define:vars={{ gaId: content.ga4MeasurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', gaId);
+      </script>
+    </Fragment>
+  )}
   {content.announcement && (
     <div class="bg-gray-900 text-white text-center text-sm py-2 px-4">
       {content.announcement}
@@ -41,6 +53,17 @@ const navLinks = [
     },
     "telephone": loc.phoneTel,
     "url": "https://sapsuckersli.com",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 40.8682,
+      "longitude": -73.4257
+    },
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 40.8682, "longitude": -73.4257 },
+      "geoRadius": "15000"
+    },
+    "sameAs": [loc.facebookUrl, loc.instagramUrl].filter(Boolean),
     "servesCuisine": ["American", "Gastropub", "Craft Beer"],
     "priceRange": "$$",
     "openingHoursSpecification": {
@@ -59,7 +82,7 @@ const navLinks = [
   <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
     <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="/sapsuckers/" class="flex items-center gap-3">
-        <img src="/brand/Sapsuckers_Bird.png" alt="Sapsuckers" class="h-10 w-auto" />
+        <img loading="lazy" src="/brand/Sapsuckers_Bird.png" alt="Sapsuckers" class="h-10 w-auto" />
         <div class="leading-tight">
           <span class="text-lg font-bold tracking-tight text-gray-900 lowercase">sapsuckers</span>
           <span class="block text-[10px] font-semibold tracking-[0.2em] uppercase text-gray-500">Hops & Grub</span>
@@ -145,7 +168,7 @@ const navLinks = [
       <div class="grid md:grid-cols-3 gap-8">
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <img src="/brand/Sapsuckers_Hops_White.png" alt="Sapsuckers" class="h-8 w-auto" />
+            <img loading="lazy" src="/brand/Sapsuckers_Hops_White.png" alt="Sapsuckers" class="h-8 w-auto" />
           </div>
           <p class="text-sm text-gray-400 leading-relaxed">
             {content.heroTagline}. {content.aboutBody || 'Craft beer pub serving creative American comfort food in Huntington Village.'}

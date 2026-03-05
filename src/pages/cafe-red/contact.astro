@@ -6,8 +6,7 @@ const loc = await getLocation('cafe-red');
 <CafeRedLayout title="Contact | Cafe Red" description={`Find Cafe Red at ${loc.address}, ${loc.city}, ${loc.state} ${loc.zip}. Call ${loc.phone} or reserve on OpenTable.`} currentPage="contact">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
-    <img
-      src="/cafe-red/CAFERED5starsv2-43.jpg"
+    <img loading="lazy" src="/cafe-red/CAFERED5starsv2-43.jpg"
       alt="Cafe Red entrance"
       class="absolute inset-0 w-full h-full object-cover"
     />

@@ -41,6 +41,12 @@ export default defineType({
       type: 'string',
       description: 'Optional banner text shown at the top of the site. Leave empty to hide.',
     }),
+    defineField({
+      name: 'ga4MeasurementId',
+      title: 'Google Analytics 4 Measurement ID',
+      type: 'string',
+      description: 'GA4 Measurement ID (e.g. G-XXXXXXXXXX). Leave empty to disable analytics.',
+    }),
   ],
   preview: {
     select: { restaurant: 'restaurant' },

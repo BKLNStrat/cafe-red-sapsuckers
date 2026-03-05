@@ -1,0 +1,70 @@
+---
+import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { sanityClient } from 'sanity:client';
+import { getLocation } from '../../lib/locations';
+const loc = await getLocation('sapsuckers');
+
+interface FAQ { question: string; answer: string; }
+
+let faqs: FAQ[] = [];
+try {
+  const data = await sanityClient.fetch(
+    `*[_type == "faq" && restaurant == "sapsuckers"] | order(sortOrder asc) { question, answer }`
+  );
+  if (data?.length) faqs = data;
+} catch (e) {}
+
+if (!faqs.length) {
+  faqs = [
+    { question: "What kind of restaurant is Sapsuckers?", answer: "Sapsuckers is a craft beer gastropub in Huntington Village serving elevated American comfort food with sixteen rotating lines of small-production craft beers. We have been a neighborhood favorite since 2010." },
+    { question: "What are Sapsuckers' hours?", answer: `We are open seven days a week. ${loc.hours.map(h => h.days + ': ' + h.hours).join('. ')}.` },
+    { question: "How many beers does Sapsuckers have on tap?", answer: "We keep sixteen rotating lines of craft beer, all small production and special, many rare and extremely limited. Our Field Guide To Beer gives each one the respect it deserves. Check our tap list on Untappd for what is currently pouring." },
+    { question: "Does Sapsuckers take reservations?", answer: "Yes. You can make a reservation through OpenTable or by calling us at " + loc.phone + "." },
+    { question: "Does Sapsuckers offer online ordering?", answer: "Yes. You can order online for pickup or delivery through ordersapsuckers.com." },
+    { question: "Where is Sapsuckers located?", answer: `Sapsuckers is located at ${loc.address}, ${loc.city}, ${loc.state} ${loc.zip}, right on Main Street in Huntington Village.` },
+    { question: "What kind of food does Sapsuckers serve?", answer: "Our menu features creative American gastropub fare including handcrafted burgers, wings, tacos, short ribs, pierogies, and seasonal specials. Everything is made in-house with quality ingredients." },
+    { question: "Does Sapsuckers have happy hour?", answer: "Yes. We offer a late-night happy hour on Friday and Saturday from 10pm to 11pm." },
+    { question: "Is Sapsuckers good for groups?", answer: "Yes. Sapsuckers is great for groups and casual gatherings. Call us at " + loc.phone + " for larger party arrangements." },
+    { question: "Does Sapsuckers have a kids menu?", answer: "Yes. We have a Fledglings menu for younger diners." },
+    { question: "Is there parking near Sapsuckers?", answer: "Yes. There is metered street parking on Main Street and several municipal parking lots within a short walk of the restaurant in Huntington Village." },
+    { question: "What is the best craft beer bar near me in Huntington, NY?", answer: "Sapsuckers Hops and Grub is a top-rated craft beer gastropub in Huntington Village, NY, featuring sixteen rotating taps of small-production craft beer and elevated American comfort food. We are located at " + loc.address + " on Main Street." },
+  ];
+}
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.answer
+    }
+  }))
+};
+---
+<SapsuckersLayout title="FAQ | Sapsuckers - Hops & Grub" description="Frequently asked questions about Sapsuckers Hops and Grub in Huntington, NY. Hours, craft beer, reservations, menu, parking, and more." currentPage="faq">
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <section class="py-16 md:py-24 bg-stone-50">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">Frequently Asked Questions</h1>
+      <p class="text-gray-500 mb-12">Everything you need to know about dining at Sapsuckers.</p>
+
+      <div class="space-y-6">
+        {faqs.map((faq) => (
+          <details class="group bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <summary class="flex items-center justify-between cursor-pointer px-6 py-4 text-left">
+              <h2 class="text-base font-semibold text-gray-900 pr-4">{faq.question}</h2>
+              <svg class="w-5 h-5 text-gray-400 shrink-0 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="px-6 pb-4 text-gray-600 leading-relaxed">{faq.answer}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</SapsuckersLayout>
