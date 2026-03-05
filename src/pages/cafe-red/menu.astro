@@ -81,15 +81,15 @@ if (!menuSections.length) {
 <CafeRedLayout title="Menu | Cafe Red" description="Full menu at Cafe Red -- new American and Italian cuisine, brunch, lunch, dinner, and full bar in Kings Park, NY." currentPage="menu">
   <section class="relative h-64 md:h-80">
     <img src="/cafe-red/CAFERED5starsv2-35.jpg" alt="Steak dinner at Cafe Red" class="absolute inset-0 w-full h-full object-cover" />
-    <div class="absolute inset-0 bg-red-950/60"></div>
+    <div class="absolute inset-0 bg-cafered-950/60"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
       <h1 class="text-4xl md:text-5xl font-display font-bold">Our Menu</h1>
       <p class="mt-3 text-lg opacity-80">New American cuisine with Italian flair</p>
     </div>
   </section>
 
-  <div class="bg-red-900 text-white text-center py-4 px-4">
-    <p class="text-sm">Enjoy Cafe Red at home -- <a href={loc.orderUrl} target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:text-red-200 transition">Order Online for Pickup or Delivery</a></p>
+  <div class="bg-cafered-500 text-white text-center py-4 px-4">
+    <p class="text-sm">Enjoy Cafe Red at home -- <a href={loc.orderUrl} target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:text-cafered-200 transition">Order Online for Pickup or Delivery</a></p>
   </div>
 
   <section class="py-16 md:py-24 bg-stone-50">
@@ -97,7 +97,7 @@ if (!menuSections.length) {
       {menuSections.map((section, i) => (
         <div class={i > 0 ? 'mt-16' : ''}>
           <div class="flex items-center gap-4 mb-2">
-            <h2 class="text-2xl md:text-3xl font-display font-bold text-red-900 whitespace-nowrap">{section.title}</h2>
+            <h2 class="text-2xl md:text-3xl font-display font-bold text-cafered-500 whitespace-nowrap">{section.title}</h2>
             <div class="flex-1 h-px bg-red-200"></div>
           </div>
           {section.subtitle && <p class="text-sm text-gray-500 mb-6">{section.subtitle}</p>}
@@ -109,7 +109,7 @@ if (!menuSections.length) {
                   {item.tags?.length && (
                     <span class="inline-flex gap-1 ml-2">
                       {item.tags.map((t) => (
-                        <span class="text-[10px] uppercase tracking-wider bg-red-50 text-red-700 px-1.5 py-0.5 rounded">{t === 'gf' ? 'GF' : t}</span>
+                        <span class="text-[10px] uppercase tracking-wider bg-cafered-50 text-cafered-700 px-1.5 py-0.5 rounded">{t === 'gf' ? 'GF' : t}</span>
                       ))}
                     </span>
                   )}
@@ -123,7 +123,7 @@ if (!menuSections.length) {
       ))}
       <div class="mt-16 text-center">
         <p class="text-sm text-gray-500 mb-6">Prices and availability subject to change. Please inform your server of any allergies.</p>
-        <a href={loc.orderUrl} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3 bg-red-900 text-white font-semibold rounded hover:bg-red-800 transition text-sm">Order Online Now</a>
+        <a href={loc.orderUrl} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3 bg-cafered-500 text-white font-semibold rounded hover:bg-cafered-600 transition text-sm">Order Online Now</a>
       </div>
     </div>
   </section>

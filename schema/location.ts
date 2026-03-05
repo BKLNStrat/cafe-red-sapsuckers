@@ -81,5 +81,15 @@ export default defineType({
       title: 'Google Maps Embed URL',
       type: 'url',
     }),
+    defineField({
+      name: 'facebookUrl',
+      title: 'Facebook Page URL',
+      type: 'url',
+    }),
+    defineField({
+      name: 'instagramUrl',
+      title: 'Instagram Profile URL',
+      type: 'url',
+    }),
   ],
 })

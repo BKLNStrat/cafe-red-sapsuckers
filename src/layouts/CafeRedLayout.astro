@@ -22,7 +22,7 @@ const navLinks = [
 ---
 <BaseLayout title={title} description={description}>
   {content.announcement && (
-    <div class="bg-red-900 text-white text-center text-sm py-2 px-4">
+    <div class="bg-cafered-500 text-white text-center text-sm py-2 px-4">
       {content.announcement}
     </div>
   )}
@@ -56,14 +56,14 @@ const navLinks = [
       "url": loc.orderUrl
     }
   })} />
-  <header class="bg-white border-b border-red-100 sticky top-0 z-50">
+  <header class="bg-white border-b border-cafered-100 sticky top-0 z-50">
     <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <a href="/cafe-red/" class="flex items-center gap-3">
         <img src="/brand/CafeRed_Logo.png" alt="Cafe Red" class="h-10 w-auto" />
       </a>
 
       <button id="cr-mobile-menu-btn" class="md:hidden p-2" aria-label="Toggle menu">
-        <svg class="w-6 h-6 text-red-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-6 h-6 text-cafered-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
@@ -72,8 +72,8 @@ const navLinks = [
         {navLinks.map(link => (
           <a
             href={link.href}
-            class={`text-sm font-medium transition-colors hover:text-red-900 ${
-              currentPage === link.label.toLowerCase() ? 'text-red-900' : 'text-gray-500'
+            class={`text-sm font-medium transition-colors hover:text-cafered-500 ${
+              currentPage === link.label.toLowerCase() ? 'text-cafered-500' : 'text-gray-500'
             }`}
           >
             {link.label}
@@ -83,7 +83,7 @@ const navLinks = [
           href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-sm font-semibold px-4 py-2 bg-red-900 text-white rounded hover:bg-red-800 transition"
+          class="text-sm font-semibold px-4 py-2 bg-cafered-500 text-white rounded hover:bg-cafered-600 transition"
         >
           Order Online
         </a>
@@ -91,31 +91,31 @@ const navLinks = [
           href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-sm font-semibold px-4 py-2 border border-red-900 text-red-900 rounded hover:bg-red-900 hover:text-white transition"
+          class="text-sm font-semibold px-4 py-2 border border-cafered-500 text-cafered-500 rounded hover:bg-cafered-500 hover:text-white transition"
         >
           Reservations
         </a>
       </div>
     </nav>
 
-    <div id="cr-mobile-menu" class="hidden md:hidden border-t border-red-100 bg-white">
+    <div id="cr-mobile-menu" class="hidden md:hidden border-t border-cafered-100 bg-white">
       <div class="px-4 py-4 space-y-3">
         {navLinks.map(link => (
           <a
             href={link.href}
             class={`block text-sm font-medium ${
-              currentPage === link.label.toLowerCase() ? 'text-red-900' : 'text-gray-500'
+              currentPage === link.label.toLowerCase() ? 'text-cafered-500' : 'text-gray-500'
             }`}
           >
             {link.label}
           </a>
         ))}
-        <div class="pt-3 space-y-2 border-t border-red-50">
+        <div class="pt-3 space-y-2 border-t border-cafered-50">
           <a
             href={loc.orderUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="block text-center text-sm font-semibold px-4 py-2 bg-red-900 text-white rounded"
+            class="block text-center text-sm font-semibold px-4 py-2 bg-cafered-500 text-white rounded"
           >
             Order Online
           </a>
@@ -123,7 +123,7 @@ const navLinks = [
             href={loc.reservationUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="block text-center text-sm font-semibold px-4 py-2 border border-red-900 text-red-900 rounded"
+            class="block text-center text-sm font-semibold px-4 py-2 border border-cafered-500 text-cafered-500 rounded"
           >
             Reservations
           </a>
@@ -136,18 +136,18 @@ const navLinks = [
     <slot />
   </main>
 
-  <footer class="bg-red-950 text-red-200">
+  <footer class="bg-cafered-950 text-cafered-200">
     <div class="max-w-6xl mx-auto px-4 py-12">
       <div class="grid md:grid-cols-3 gap-8">
         <div>
           <img src="/brand/CafeRed_Logo_Footer.png" alt="Cafe Red" class="h-8 w-auto mb-4" />
-          <p class="text-sm text-red-300 leading-relaxed">
+          <p class="text-sm text-cafered-300 leading-relaxed">
             {content.aboutBody || 'Upscale casual Italian-American dining in the heart of Kings Park. Fresh ingredients, warm ambiance, unforgettable meals.'}
           </p>
         </div>
         <div>
           <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Hours</h3>
-          <div class="text-sm space-y-1 text-red-300">
+          <div class="text-sm space-y-1 text-cafered-300">
             {loc.hours.map((h) => (
               <p>{h.days}: {h.hours}</p>
             ))}
@@ -155,22 +155,26 @@ const navLinks = [
         </div>
         <div>
           <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Location</h3>
-          <div class="text-sm space-y-1 text-red-300">
+          <div class="text-sm space-y-1 text-cafered-300">
             <p>{loc.address}</p>
             <p>{loc.city}, {loc.state} {loc.zip}</p>
             <p class="pt-2">{loc.phone}</p>
           </div>
           <div class="flex gap-4 mt-4">
-            <a href="#" class="text-red-400 hover:text-white transition" aria-label="Facebook">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </a>
-            <a href="#" class="text-red-400 hover:text-white transition" aria-label="Instagram">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            </a>
+            {loc.facebookUrl && (
+              <a href={loc.facebookUrl} target="_blank" rel="noopener noreferrer" class="text-cafered-400 hover:text-white transition" aria-label="Facebook">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+            )}
+            {loc.instagramUrl && (
+              <a href={loc.instagramUrl} target="_blank" rel="noopener noreferrer" class="text-cafered-400 hover:text-white transition" aria-label="Instagram">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
+            )}
           </div>
         </div>
       </div>
-      <div class="border-t border-red-900 mt-8 pt-8 text-center text-xs text-red-400">
+      <div class="border-t border-cafered-500 mt-8 pt-8 text-center text-xs text-cafered-400">
         <p>Built by Brooklyn Strategic</p>
       </div>
     </div>

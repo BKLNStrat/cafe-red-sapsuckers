@@ -19,6 +19,8 @@ export interface LocationData {
   reservationUrl: string;
   mapEmbedUrl: string;
   untappdEmbedUrl: string;
+  facebookUrl: string;
+  instagramUrl: string;
 }
 
 export interface SiteContentData {
@@ -46,6 +48,8 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     reservationUrl: 'https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington',
     mapEmbedUrl: '',
     untappdEmbedUrl: 'https://business.untappd.com/embeds/iframes/15551/58029',
+    facebookUrl: '',
+    instagramUrl: '',
   },
   'cafe-red': {
     name: 'Cafe Red',
@@ -66,6 +70,8 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     reservationUrl: 'https://www.opentable.com/r/cafe-red-of-kings-park',
     mapEmbedUrl: '',
     untappdEmbedUrl: '',
+    facebookUrl: '',
+    instagramUrl: '',
   },
 };
 
@@ -101,7 +107,7 @@ export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promis
   const defaults = LOCATION_DEFAULTS[restaurant];
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl, untappdEmbedUrl }`,
+      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl, untappdEmbedUrl, facebookUrl, instagramUrl }`,
       { id: `location-${restaurant}` }
     );
     if (data) {
@@ -122,6 +128,8 @@ export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promis
         reservationUrl: data.reservationUrl || defaults.reservationUrl,
         mapEmbedUrl: data.mapEmbedUrl || defaults.mapEmbedUrl,
         untappdEmbedUrl: data.untappdEmbedUrl || defaults.untappdEmbedUrl,
+        facebookUrl: data.facebookUrl || defaults.facebookUrl,
+        instagramUrl: data.instagramUrl || defaults.instagramUrl,
       };
     }
   } catch (e) {

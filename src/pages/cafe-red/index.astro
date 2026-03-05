@@ -20,7 +20,7 @@ try {
       alt="Cafe Red dining room"
       class="absolute inset-0 w-full h-full object-cover"
     />
-    <div class="absolute inset-0 bg-red-950/50"></div>
+    <div class="absolute inset-0 bg-cafered-950/50"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
       <img src="/brand/CafeRed_Logo_Hero.png" alt="Cafe Red" class="h-16 md:h-20 w-auto mb-4" />
       <h1 class="sr-only">Cafe Red</h1>
@@ -31,7 +31,7 @@ try {
           href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-8 py-3 bg-white text-red-900 font-semibold rounded hover:bg-red-50 transition text-sm"
+          class="px-8 py-3 bg-white text-cafered-500 font-semibold rounded hover:bg-cafered-50 transition text-sm"
         >
           Order Online
         </a>
@@ -39,7 +39,7 @@ try {
           href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-red-900 transition text-sm"
+          class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-cafered-500 transition text-sm"
         >
           Make a Reservation
         </a>
@@ -64,7 +64,7 @@ try {
           <p class="text-gray-600 leading-relaxed mb-8">
             Open seven days for brunch, lunch, and dinner. Call ahead for reservations or curbside pickup.
           </p>
-          <a href="/cafe-red/menu/" class="inline-block text-sm font-semibold px-6 py-3 bg-red-900 text-white rounded hover:bg-red-800 transition">
+          <a href="/cafe-red/menu/" class="inline-block text-sm font-semibold px-6 py-3 bg-cafered-500 text-white rounded hover:bg-cafered-600 transition">
             View Our Menu
           </a>
         </div>
@@ -97,7 +97,7 @@ try {
         </div>
       </div>
       <div class="text-center mt-10">
-        <a href="/cafe-red/gallery/" class="inline-block text-sm font-semibold px-6 py-3 border border-red-900 text-red-900 rounded hover:bg-red-900 hover:text-white transition">
+        <a href="/cafe-red/gallery/" class="inline-block text-sm font-semibold px-6 py-3 border border-cafered-500 text-cafered-500 rounded hover:bg-cafered-500 hover:text-white transition">
           View Gallery
         </a>
       </div>
@@ -110,7 +110,7 @@ try {
         <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-8">Upcoming Events</h2>
         <div class="grid md:grid-cols-3 gap-6">
           {events.map((event) => (
-            <div class="border border-red-100 rounded-lg p-6">
+            <div class="border border-cafered-100 rounded-lg p-6">
               <p class="text-sm text-gray-500 mb-2">{new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</p>
               <h3 class="text-xl font-bold text-gray-900 mb-2">{event.title}</h3>
               {event.description && <p class="text-gray-600">{event.description}</p>}
@@ -128,7 +128,7 @@ try {
       alt="Cafe Red interior"
       class="absolute inset-0 w-full h-full object-cover"
     />
-    <div class="absolute inset-0 bg-red-950/60"></div>
+    <div class="absolute inset-0 bg-cafered-950/60"></div>
     <div class="relative z-10 text-center text-white px-4">
       <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Join Us in {loc.city}</h2>
       <p class="text-lg opacity-80 mb-2">{loc.address}, {loc.city}, {loc.state} {loc.zip}</p>
@@ -138,7 +138,7 @@ try {
           href={loc.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-8 py-3 bg-white text-red-900 font-semibold rounded hover:bg-red-50 transition text-sm"
+          class="px-8 py-3 bg-white text-cafered-500 font-semibold rounded hover:bg-cafered-50 transition text-sm"
         >
           Order Online
         </a>
@@ -146,7 +146,7 @@ try {
           href={loc.reservationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-red-900 transition text-sm"
+          class="px-8 py-3 border border-white text-white font-semibold rounded hover:bg-white hover:text-cafered-500 transition text-sm"
         >
           Make a Reservation
         </a>
