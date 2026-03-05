@@ -1,0 +1,38 @@
+---
+import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { getLocation } from '../../lib/locations';
+const loc = await getLocation('sapsuckers');
+---
+<SapsuckersLayout title="Beer Menu | Sapsuckers - Hops & Grub" description="Sixteen rotating lines of craft beer at Sapsuckers in Huntington Village. Check our current tap list, all small production and special." currentPage="beer">
+  <section class="py-16 md:py-24 bg-stone-50">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900">On Tap</h1>
+        <p class="mt-4 text-gray-500 max-w-2xl mx-auto">Sixteen rotating lines of small-production craft beers. Each one gets the respect it deserves in our Field Guide To Beer. This list updates in real time from our Untappd account.</p>
+      </div>
+
+      {loc.untappdEmbedUrl ? (
+        <div class="rounded-lg overflow-hidden border border-gray-200 bg-white">
+          <iframe
+            src={loc.untappdEmbedUrl}
+            frameborder="0"
+            width="100%"
+            height="2000"
+            style="border: 0;"
+            loading="lazy"
+            title="Sapsuckers beer menu from Untappd"
+          ></iframe>
+        </div>
+      ) : (
+        <div class="text-center py-12 text-gray-500">
+          <p>Our tap list is currently being updated. Please check back soon or ask your server for today's selections.</p>
+        </div>
+      )}
+
+      <div class="mt-12 text-center">
+        <p class="text-sm text-gray-500 mb-6">Want to see our food menu?</p>
+        <a href="/sapsuckers/menu/" class="inline-block px-8 py-3 bg-gray-900 text-white font-semibold rounded hover:bg-gray-700 transition text-sm">View Food Menu</a>
+      </div>
+    </div>
+  </section>
+</SapsuckersLayout>
