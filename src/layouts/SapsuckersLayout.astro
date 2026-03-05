@@ -23,6 +23,11 @@ const navLinks = [
 ];
 ---
 <BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <link rel="icon" type="image/x-icon" href="/sapsuckers/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/sapsuckers/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/sapsuckers/apple-touch-icon.png" />
+  </Fragment>
   {content.ga4MeasurementId && (
     <Fragment slot="head">
       <script async src={`https://www.googletagmanager.com/gtag/js?id=${content.ga4MeasurementId}`}></script>
