@@ -2,6 +2,7 @@
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
 import { sanityClient } from 'sanity:client';
 import { getLocation } from '../../lib/locations';
+import { formatPrice } from '../../lib/format';
 const loc = await getLocation('sapsuckers');
 
 interface MenuItem { name: string; price: string; desc?: string; tags?: string[]; }
@@ -139,7 +140,7 @@ if (!menuSections.length) {
                   )}
                   {item.desc && <p class="text-sm text-gray-500 mt-0.5">{item.desc}</p>}
                 </div>
-                <span class="text-base text-gray-500 font-medium whitespace-nowrap">{item.price}</span>
+                <span class="text-base text-gray-500 font-medium whitespace-nowrap">{formatPrice(item.price)}</span>
               </div>
             ))}
           </div>
