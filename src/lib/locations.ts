@@ -18,6 +18,7 @@ export interface LocationData {
   orderUrl: string;
   reservationUrl: string;
   mapEmbedUrl: string;
+  untappdEmbedUrl: string;
 }
 
 export interface SiteContentData {
@@ -44,6 +45,7 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     orderUrl: 'https://www.ordersapsuckers.com/',
     reservationUrl: 'https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington',
     mapEmbedUrl: '',
+    untappdEmbedUrl: 'https://business.untappd.com/embeds/iframes/15551/58029',
   },
   'cafe-red': {
     name: 'Cafe Red',
@@ -63,6 +65,7 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     orderUrl: 'https://www.ordercafered.com/',
     reservationUrl: 'https://www.opentable.com/r/cafe-red-of-kings-park',
     mapEmbedUrl: '',
+    untappdEmbedUrl: '',
   },
 };
 
@@ -98,7 +101,7 @@ export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promis
   const defaults = LOCATION_DEFAULTS[restaurant];
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl }`,
+      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl, untappdEmbedUrl }`,
       { id: `location-${restaurant}` }
     );
     if (data) {
@@ -118,6 +121,7 @@ export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promis
         orderUrl: data.orderUrl || defaults.orderUrl,
         reservationUrl: data.reservationUrl || defaults.reservationUrl,
         mapEmbedUrl: data.mapEmbedUrl || defaults.mapEmbedUrl,
+        untappdEmbedUrl: data.untappdEmbedUrl || defaults.untappdEmbedUrl,
       };
     }
   } catch (e) {

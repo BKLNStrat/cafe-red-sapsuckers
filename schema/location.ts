@@ -66,6 +66,12 @@ export default defineType({
       type: 'url',
     }),
     defineField({
+      name: 'untappdEmbedUrl',
+      title: 'Untappd Beer Menu Embed URL',
+      type: 'url',
+      description: 'Untappd iframe embed URL for beer/tap menu (e.g. https://business.untappd.com/embeds/iframes/15551/58029)',
+    }),
+    defineField({
       name: 'reservationUrl',
       title: 'Reservation URL (OpenTable)',
       type: 'url',
