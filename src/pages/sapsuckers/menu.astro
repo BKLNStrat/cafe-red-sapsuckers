@@ -117,7 +117,7 @@ if (!menuSections.length) {
 
   <section class="py-16 md:py-24 bg-stone-50">
     <div class="max-w-4xl mx-auto px-4">
-      {menuSections.map((section, i) => (
+      {menuSections.filter(s => s.items.length > 0).map((section, i) => (
         <div class={i > 0 ? 'mt-16' : ''}>
           <div class="flex items-center gap-4 mb-2">
             <div>
