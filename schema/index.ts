@@ -5,6 +5,7 @@ import gallerySection from './gallerySection'
 import dish from './dish'
 import menuSection from './menuSection'
 import faq from './faq'
+import partyMenu from './partyMenu'
 
 export const schemaTypes = [
   location,
@@ -14,4 +15,5 @@ export const schemaTypes = [
   dish,
   menuSection,
   faq,
+  partyMenu,
 ]

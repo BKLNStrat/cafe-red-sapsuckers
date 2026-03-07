@@ -1,7 +1,25 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+import { sanityClient } from 'sanity:client';
 
-const menus = [
+interface PartyMenuItem { name: string; desc: string; }
+interface PartyMenuSection { heading: string; subheading?: string; items: PartyMenuItem[]; }
+interface PartyMenu { name: string; price: number; courses: string; note: string; sections: PartyMenuSection[]; }
+
+let menus: PartyMenu[] = [];
+try {
+  const data = await sanityClient.fetch(
+    `*[_type == "partyMenu" && restaurant == "cafe-red" && active == true] | order(sortOrder asc) {
+      name, price, courses, note,
+      sections[]{ heading, subheading, items[]{ name, desc } }
+    }`
+  );
+  if (data?.length) menus = data;
+} catch (e) {}
+
+// Static fallback
+if (!menus.length) {
+  menus = [
   {
     name: "North Fork",
     price: 40,
@@ -149,7 +167,8 @@ const menus = [
       }
     ]
   }
-];
+  ];
+}
 ---
 
 <CafeRedLayout
