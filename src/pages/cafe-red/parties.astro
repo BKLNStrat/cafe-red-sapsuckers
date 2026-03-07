@@ -1,0 +1,239 @@
+---
+import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+
+const menus = [
+  {
+    name: "North Fork",
+    price: 40,
+    courses: "Three-Course Menu",
+    note: "Includes soda, Colombian coffee & tea. Not including 20% gratuity, bar & sales tax.",
+    sections: [
+      {
+        heading: "Appetizer",
+        subheading: "Choice of",
+        items: [
+          { name: "Classic Caesar", desc: "Shaved parmesan cheese, house croutons, baby romaine & caesar dressing (anchovy free)" },
+          { name: "Crispy Baby Calamari", desc: "Semolina crusted with tomato dipping sauce" },
+          { name: "Caprese", desc: "Fresh mozzarella, sliced tomato, roasted peppers, basil & sweet balsamic" },
+        ]
+      },
+      {
+        heading: "Main Course",
+        subheading: "Choice of",
+        items: [
+          { name: "Sea Bass Oreganata", desc: "Herbed bread crumb crust, lemon & caper sauce, jasmine rice, market vegetable" },
+          { name: "Organic Chicken Capricciosa", desc: "Pounded thin & lightly breaded with baby arugula, fresh mozzarella, tomato, red onion & balsamic vinaigrette" },
+          { name: "Spinach & Ricotta Ravioli", desc: "With fresh tomato & basil sauce" },
+        ]
+      },
+      {
+        heading: "Homemade Dessert",
+        subheading: "Choice of",
+        items: [
+          { name: "Three of Our Desserts", desc: "Flourless chocolate cake / Italian ricotta cheesecake / coconut tiramisu / bread pudding / trio of gelato / sorbet" },
+        ]
+      }
+    ]
+  },
+  {
+    name: "Sardegna",
+    price: 55,
+    courses: "Four-Course Menu",
+    note: "Includes soda, Colombian coffee & tea. Not including 20% gratuity, bar & sales tax.",
+    sections: [
+      {
+        heading: "Appetizer",
+        subheading: "Choice of",
+        items: [
+          { name: "Caprese", desc: "Fresh mozzarella, sliced tomato, roasted peppers, basil & sweet balsamic" },
+          { name: "Shrimp Cocktail", desc: "Chilled wild gulf shrimp, sliced avocado, cocktail sauce" },
+          { name: "Spinach & Ricotta Ravioli", desc: "With fresh tomato & basil" },
+        ]
+      },
+      {
+        heading: "Second Course",
+        items: [
+          { name: "Caesar Salad", desc: "Shaved parmesan cheese, house croutons, baby romaine & caesar dressing (anchovy free)" },
+        ]
+      },
+      {
+        heading: "Main Course",
+        subheading: "Choice of",
+        items: [
+          { name: "Roasted Salmon", desc: "Our famous caponata, sweet balsamic, jasmine rice, market vegetables" },
+          { name: "Hunter's Chicken", desc: "Organic chicken cutlet braised in red wine with wild mushrooms, onions & bacon, mashed potatoes & market vegetables" },
+          { name: "Braised Rib of Beef", desc: "Red wine braising glaze, mashed potatoes, haricot verts, crispy onions" },
+        ]
+      },
+      {
+        heading: "Homemade Dessert",
+        subheading: "Choice of",
+        items: [
+          { name: "Three of Our Desserts", desc: "Flourless chocolate cake / Italian ricotta cheesecake / coconut tiramisu / bread pudding / trio of gelato / sorbet" },
+        ]
+      }
+    ]
+  },
+  {
+    name: "Provence",
+    price: 65,
+    courses: "Four-Course Menu",
+    note: "Includes soda, Colombian coffee & tea. Not including 20% gratuity, bar & sales tax.",
+    sections: [
+      {
+        heading: "Appetizer",
+        subheading: "Choice of",
+        items: [
+          { name: "Eggplant Parmigiana", desc: "Baked layers of breaded eggplant, our tomato sauce, mozzarella & parmesan" },
+          { name: "Harvest Salad", desc: "Gorgonzola, toasted almonds, bacon, beetroot, baby greens & port wine vinaigrette" },
+          { name: "Seared Sea Scallops", desc: "Bacon wrapped, wilted baby spinach, truffled aioli" },
+        ]
+      },
+      {
+        heading: "Second Course",
+        items: [
+          { name: "Risotto", desc: "Wild mushrooms & aged parmesan" },
+        ]
+      },
+      {
+        heading: "Main Course",
+        subheading: "Choice of",
+        items: [
+          { name: "Roasted Halibut", desc: "Sweet red bell pepper coulis, jasmine rice & market vegetables" },
+          { name: "Herb Rubbed Half Chicken", desc: "Truffled natural jus, mashed potatoes & haricot verts" },
+          { name: "Steak Frites", desc: "Shell steak with gorgonzola au poivre sauce & house fries" },
+        ]
+      },
+      {
+        heading: "Homemade Dessert",
+        subheading: "Choice of",
+        items: [
+          { name: "Three of Our Desserts", desc: "Flourless chocolate cake / Italian ricotta cheesecake / coconut tiramisu / bread pudding / trio of gelato / sorbet" },
+        ]
+      }
+    ]
+  },
+  {
+    name: "Brunch Inspired",
+    price: 45,
+    courses: "Four-Course Menu",
+    note: "Includes soda, Colombian coffee & tea. Not including 20% gratuity, bar & sales tax.",
+    sections: [
+      {
+        heading: "Appetizer",
+        subheading: "Choice of",
+        items: [
+          { name: "Classic Caesar", desc: "Shaved parmesan cheese, house croutons, baby romaine & caesar dressing (anchovy free)" },
+          { name: "Crispy Baby Calamari", desc: "Semolina crusted with tomato dipping sauce" },
+          { name: "Caprese", desc: "Fresh mozzarella, sliced tomato, roasted peppers, basil & sweet balsamic" },
+        ]
+      },
+      {
+        heading: "Main Course",
+        subheading: "Choice of",
+        items: [
+          { name: "El Greco Omelet", desc: "Feta, tomato & spinach, home fries, rye toast & bacon" },
+          { name: "Brioche French Toast", desc: "Fresh berries, whipped cream, Vermont maple syrup" },
+          { name: "Lemon Ricotta Pancakes", desc: "Fresh berries, whipped cream, Vermont maple syrup" },
+          { name: "Organic Chicken Capricciosa", desc: "Pounded thin & lightly breaded with baby arugula, fresh mozzarella, tomato, red onion & balsamic vinaigrette" },
+          { name: "Spinach & Ricotta Ravioli", desc: "With fresh tomato & basil sauce" },
+          { name: "Steak Frites", desc: "Shell steak with gorgonzola au poivre sauce & house fries" },
+        ]
+      },
+      {
+        heading: "Homemade Dessert",
+        subheading: "Choice of",
+        items: [
+          { name: "Three of Our Desserts", desc: "Flourless chocolate cake / Italian ricotta cheesecake / coconut tiramisu / bread pudding / trio of gelato / sorbet" },
+        ]
+      }
+    ]
+  }
+];
+---
+
+<CafeRedLayout
+  title="Private Parties & Events | Cafe Red - Kings Park, NY"
+  description="Host your next private party or special event at Cafe Red in Kings Park, NY. Four prix-fixe party menus from $40 per person including North Fork, Sardegna, Provence, and Brunch Inspired."
+  currentPage="parties"
+>
+  <!-- Hero -->
+  <section class="relative py-20 md:py-28 bg-stone-50 border-b border-cafered-100">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">Private Parties &amp; Events</h1>
+      <p class="text-gray-500 text-lg max-w-2xl mx-auto">Celebrate your next special occasion with us. Our prix-fixe party menus are designed for groups and can be customized to suit your event.</p>
+      <p class="mt-6 text-gray-500 text-sm">To book a private event, call us at <a href="tel:+16315444500" class="text-cafered-500 font-medium hover:underline">(631) 544-4500</a></p>
+      <div class="mt-6">
+        <a
+          href="/cafe-red/party-menus.pdf"
+          target="_blank"
+          class="inline-block text-sm font-semibold px-6 py-3 border border-cafered-500 text-cafered-500 rounded hover:bg-cafered-500 hover:text-white transition"
+        >
+          Download Party Menus (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menus -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-10">
+        {menus.map((menu) => (
+          <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <!-- Menu header -->
+            <div class="bg-cafered-500 px-6 py-5 flex items-start justify-between">
+              <div>
+                <h2 class="text-xl font-display font-bold text-white">{menu.name}</h2>
+                <p class="text-cafered-100 text-sm mt-0.5">{menu.courses}</p>
+              </div>
+              <div class="text-right shrink-0 ml-4">
+                <span class="text-2xl font-bold text-white">${menu.price}</span>
+                <span class="text-cafered-100 text-sm block">per person</span>
+              </div>
+            </div>
+
+            <!-- Sections -->
+            <div class="px-6 py-5 space-y-6 bg-white">
+              {menu.sections.map((section) => (
+                <div>
+                  <div class="flex items-center gap-2 mb-3">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-cafered-500">{section.heading}</h3>
+                    {section.subheading && (
+                      <span class="text-xs text-gray-400 italic">{section.subheading}</span>
+                    )}
+                  </div>
+                  <ul class="space-y-2">
+                    {section.items.map((item) => (
+                      <li>
+                        <p class="text-sm font-semibold text-gray-900">{item.name}</p>
+                        <p class="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+
+              <!-- Note -->
+              <p class="text-xs text-gray-400 border-t border-gray-100 pt-4">{menu.note}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-16 text-center bg-stone-50 rounded-lg py-12 px-6">
+        <h2 class="text-2xl font-display font-bold text-gray-900 mb-3">Ready to Book?</h2>
+        <p class="text-gray-500 mb-6 max-w-lg mx-auto">Contact us to discuss availability, custom menu options, and arrangements for your group.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="tel:+16315444500" class="inline-block px-8 py-3 bg-cafered-500 text-white font-semibold rounded hover:bg-cafered-600 transition text-sm">
+            Call (631) 544-4500
+          </a>
+          <a href="/cafe-red/contact/" class="inline-block px-8 py-3 border border-cafered-500 text-cafered-500 font-semibold rounded hover:bg-cafered-500 hover:text-white transition text-sm">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</CafeRedLayout>
