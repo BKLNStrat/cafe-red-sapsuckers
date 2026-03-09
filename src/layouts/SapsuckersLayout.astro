@@ -4,6 +4,7 @@ import { getLocation, getSiteContent } from '../lib/locations';
 
 const loc = await getLocation('sapsuckers');
 const content = await getSiteContent('sapsuckers');
+const isPreview = process.env.PREVIEW_MODE === 'true';
 
 interface Props {
   title: string;
@@ -38,6 +39,15 @@ const navLinks = [
         gtag('config', gaId);
       </script>
     </Fragment>
+  )}
+  {isPreview && (
+    <div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#111827;color:#fff;text-align:center;padding:8px 16px;font-size:13px;font-family:sans-serif;letter-spacing:0.02em;">
+      PREVIEW — This is not live yet.&nbsp;
+      <a href="http://104.236.69.208:3333/" style="color:#93c5fd;text-decoration:underline;">Return to dashboard to publish.</a>
+    </div>
+  )}
+  {isPreview && (
+    <div style="height:37px;" />
   )}
   {content.announcement && (
     <div class="bg-gray-900 text-white text-center text-sm py-2 px-4">
