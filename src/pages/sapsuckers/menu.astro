@@ -100,10 +100,11 @@ if (!menuSections.length) {
     ]},
   ];
 }
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <SapsuckersLayout title="Menu | Sapsuckers - Hops & Grub" description="Full menu at Sapsuckers -- craft burgers, wings, pierogies, and sixteen rotating craft beers on tap in Huntington Village, NY." currentPage="menu">
   <section class="relative h-64 md:h-80">
-    <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-8.jpg" alt="Sapsuckers food spread" class="absolute inset-0 w-full h-full object-cover" />
+    <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-8.jpg`} alt="Sapsuckers food spread" class="absolute inset-0 w-full h-full object-cover" />
     <div class="absolute inset-0 bg-black/60"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
       <h1 class="text-4xl md:text-5xl font-display font-bold">Our Menu</h1>

@@ -79,11 +79,12 @@ if (!gallerySections.length || gallerySections.every(s => !s.photos.length)) {
     { title: 'The Space', photos: ambiancePhotos, aspect: 'aspect-[4/3]', columns: 3 },
   ];
 }
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <SapsuckersLayout title="Gallery | Sapsuckers - Hops & Grub" description="Photos of craft beers, gastropub dishes, and the warm interior at Sapsuckers in Huntington, NY." currentPage="gallery">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
-    <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-50.jpg"
+    <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-50.jpg`}
       alt="Craft beers at Sapsuckers"
       class="absolute inset-0 w-full h-full object-cover"
     />

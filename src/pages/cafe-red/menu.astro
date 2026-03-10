@@ -78,10 +78,11 @@ if (!menuSections.length) {
     ]},
   ];
 }
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <CafeRedLayout title="Menu | Cafe Red" description="Full menu at Cafe Red -- new American and Italian cuisine, brunch, lunch, dinner, and full bar in Kings Park, NY." currentPage="menu">
   <section class="relative h-64 md:h-80">
-    <img loading="lazy" src="/cafe-red/CAFERED5starsv2-35.jpg" alt="Steak dinner at Cafe Red" class="absolute inset-0 w-full h-full object-cover" />
+    <img loading="lazy" src={`${base}/cafe-red/CAFERED5starsv2-35.jpg`} alt="Steak dinner at Cafe Red" class="absolute inset-0 w-full h-full object-cover" />
     <div class="absolute inset-0 bg-cafered-950/60"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
       <h1 class="text-4xl md:text-5xl font-display font-bold">Our Menu</h1>

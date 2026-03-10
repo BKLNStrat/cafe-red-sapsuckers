@@ -2,11 +2,12 @@
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
 import { getLocation } from '../../lib/locations';
 const loc = await getLocation('sapsuckers');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <SapsuckersLayout title="Contact | Sapsuckers - Hops & Grub" description={`Find Sapsuckers at ${loc.address}, ${loc.city}, ${loc.state} ${loc.zip}. Call ${loc.phone} or reserve on OpenTable.`} currentPage="contact">
   <!-- Hero -->
   <section class="relative h-48 md:h-64">
-    <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-35.jpg"
+    <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-35.jpg`}
       alt="Sapsuckers exterior sign"
       class="absolute inset-0 w-full h-full object-cover"
     />

@@ -2,6 +2,7 @@
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
 import { getLocation } from '../../lib/locations';
 const loc = await getLocation('sapsuckers');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <SapsuckersLayout title="Beer Menu | Sapsuckers - Hops & Grub" description="Sixteen rotating lines of craft beer at Sapsuckers in Huntington Village. Check our current tap list, all small production and special." currentPage="beer">
   <section class="py-16 md:py-24 bg-stone-50">
@@ -31,7 +32,7 @@ const loc = await getLocation('sapsuckers');
 
       <div class="mt-12 text-center">
         <p class="text-sm text-gray-500 mb-6">Want to see our food menu?</p>
-        <a href="/sapsuckers/menu/" class="inline-block px-8 py-3 bg-gray-900 text-white font-semibold rounded hover:bg-gray-700 transition text-sm">View Food Menu</a>
+        <a href={`${base}/sapsuckers/menu/`} class="inline-block px-8 py-3 bg-gray-900 text-white font-semibold rounded hover:bg-gray-700 transition text-sm">View Food Menu</a>
       </div>
     </div>
   </section>

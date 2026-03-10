@@ -11,17 +11,18 @@ try {
     `*[_type == "event" && restaurant == "sapsuckers" && date >= now()] | order(date asc) [0...3] { title, date, description }`
   ) || [];
 } catch (e) { /* no events */ }
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <SapsuckersLayout title="Sapsuckers - Hops & Grub | Huntington, NY" currentPage="home">
   <!-- Hero -->
   <section class="relative h-[70vh] min-h-[500px]">
-    <img fetchpriority="high" src="/sapsuckers/SAPSUCKERS5starsv2-65.jpg"
+    <img fetchpriority="high" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-65.jpg`}
       alt="Sapsuckers bar interior"
       class="absolute inset-0 w-full h-full object-cover"
     />
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-      <img loading="lazy" src="/brand/Sapsuckers_Full_Logo.png" alt="Sapsuckers Hops & Grub - Huntington, NY" class="h-52 md:h-72 w-auto mb-6 rounded-lg" />
+      <img loading="lazy" src={`${base}/brand/Sapsuckers_Full_Logo.png`} alt="Sapsuckers Hops & Grub - Huntington, NY" class="h-52 md:h-72 w-auto mb-6 rounded-lg" />
       <h1 class="sr-only">Sapsuckers Hops & Grub</h1>
       <p class="text-lg md:text-xl font-light tracking-widest uppercase opacity-70 mt-2">{content.heroTagline}</p>
       <div class="flex flex-col sm:flex-row gap-3 mt-8">
@@ -62,15 +63,15 @@ try {
           <p class="text-gray-600 leading-relaxed mb-8">
             Enjoy it all in a polished, warm pub setting -- ebony-stained mahogany, antiqued mirrors, vintage lighting, Audubon lithographs under a hand-patina copper tin ceiling, and our custom-made polished chrome beer tower imported from Germany.
           </p>
-          <a href="/sapsuckers/menu/" class="inline-block text-sm font-semibold px-6 py-3 bg-gray-900 text-white rounded hover:bg-gray-700 transition">
+          <a href={`${base}/sapsuckers/menu/`} class="inline-block text-sm font-semibold px-6 py-3 bg-gray-900 text-white rounded hover:bg-gray-700 transition">
             View Our Menu
           </a>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-50.jpg" alt="Craft beers" class="rounded-lg w-full h-48 object-cover" />
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-6.jpg" alt="Gourmet burger" class="rounded-lg w-full h-48 object-cover" />
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-20.jpg" alt="Glazed wings" class="rounded-lg w-full h-48 object-cover" />
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-17.jpg" alt="Cuban sandwich" class="rounded-lg w-full h-48 object-cover" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-50.jpg`} alt="Craft beers" class="rounded-lg w-full h-48 object-cover" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-6.jpg`} alt="Gourmet burger" class="rounded-lg w-full h-48 object-cover" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-20.jpg`} alt="Glazed wings" class="rounded-lg w-full h-48 object-cover" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-17.jpg`} alt="Cuban sandwich" class="rounded-lg w-full h-48 object-cover" />
         </div>
       </div>
     </div>
@@ -85,17 +86,17 @@ try {
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <div class="group relative overflow-hidden rounded-lg aspect-square">
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-8.jpg" alt="Table spread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-8.jpg`} alt="Table spread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         </div>
         <div class="group relative overflow-hidden rounded-lg aspect-square">
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-14.jpg" alt="Chili with cornbread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-14.jpg`} alt="Chili with cornbread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         </div>
         <div class="group relative overflow-hidden rounded-lg aspect-square">
-          <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-25.jpg" alt="Dessert" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-25.jpg`} alt="Dessert" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         </div>
       </div>
       <div class="text-center mt-10">
-        <a href="/sapsuckers/gallery/" class="inline-block text-sm font-semibold px-6 py-3 border border-gray-900 text-gray-900 rounded hover:bg-gray-900 hover:text-white transition">
+        <a href={`${base}/sapsuckers/gallery/`} class="inline-block text-sm font-semibold px-6 py-3 border border-gray-900 text-gray-900 rounded hover:bg-gray-900 hover:text-white transition">
           View Gallery
         </a>
       </div>
@@ -121,7 +122,7 @@ try {
 
   <!-- Location Banner -->
   <section class="relative py-20 md:py-28">
-    <img loading="lazy" src="/sapsuckers/SAPSUCKERS5starsv2-70.jpg"
+    <img loading="lazy" src={`${base}/sapsuckers/SAPSUCKERS5starsv2-70.jpg`}
       alt="Sapsuckers booth seating"
       class="absolute inset-0 w-full h-full object-cover"
     />

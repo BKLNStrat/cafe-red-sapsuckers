@@ -169,6 +169,7 @@ if (!menus.length) {
   }
   ];
 }
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <CafeRedLayout
@@ -184,8 +185,7 @@ if (!menus.length) {
       <p class="mt-6 text-gray-500 text-sm">To book a private event, call us at <a href="tel:+16315444500" class="text-cafered-500 font-medium hover:underline">(631) 544-4500</a></p>
       <div class="mt-6">
         <a
-          href="/cafe-red/party-menus.pdf"
-          target="_blank"
+          href={`${base}/cafe-red/party-menus.pdf`} target="_blank"
           class="inline-block text-sm font-semibold px-6 py-3 border border-cafered-500 text-cafered-500 rounded hover:bg-cafered-500 hover:text-white transition"
         >
           Download Party Menus (PDF)
@@ -248,7 +248,7 @@ if (!menus.length) {
           <a href="tel:+16315444500" class="inline-block px-8 py-3 bg-cafered-500 text-white font-semibold rounded hover:bg-cafered-600 transition text-sm">
             Call (631) 544-4500
           </a>
-          <a href="/cafe-red/contact/" class="inline-block px-8 py-3 border border-cafered-500 text-cafered-500 font-semibold rounded hover:bg-cafered-500 hover:text-white transition text-sm">
+          <a href={`${base}/cafe-red/contact/`} class="inline-block px-8 py-3 border border-cafered-500 text-cafered-500 font-semibold rounded hover:bg-cafered-500 hover:text-white transition text-sm">
             Contact Us
           </a>
         </div>

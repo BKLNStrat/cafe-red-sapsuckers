@@ -14,20 +14,21 @@ interface Props {
 
 const { title, description = 'Cafe Red -- new American cuisine with Italian flair in Kings Park, NY. Full bar, brunch, lunch, and dinner. Open 7 days.', currentPage = '' } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const navLinks = [
-  { href: '/cafe-red/', label: 'Home' },
-  { href: '/cafe-red/menu/', label: 'Menu' },
-  { href: '/cafe-red/parties/', label: 'Parties' },
-  { href: '/cafe-red/gallery/', label: 'Gallery' },
-  { href: '/cafe-red/faq/', label: 'FAQ' },
-  { href: '/cafe-red/contact/', label: 'Contact' },
+  { href: `${base}/cafe-red/`, label: 'Home' },
+  { href: `${base}/cafe-red/menu/`, label: 'Menu' },
+  { href: `${base}/cafe-red/parties/`, label: 'Parties' },
+  { href: `${base}/cafe-red/gallery/`, label: 'Gallery' },
+  { href: `${base}/cafe-red/faq/`, label: 'FAQ' },
+  { href: `${base}/cafe-red/contact/`, label: 'Contact' },
 ];
 ---
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
-    <link rel="icon" type="image/x-icon" href="/cafe-red/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/cafe-red/favicon-32.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/cafe-red/apple-touch-icon.png" />
+    <link rel="icon" type="image/x-icon" href={`${base}/cafe-red/favicon.ico`} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}/cafe-red/favicon-32.png`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${base}/cafe-red/apple-touch-icon.png`} />
   </Fragment>
   {content.ga4MeasurementId && (
     <Fragment slot="head">
@@ -97,8 +98,8 @@ const navLinks = [
   })} />
   <header class="bg-white border-b border-cafered-100 sticky top-0 z-50">
     <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/cafe-red/" class="flex items-center gap-3">
-        <img loading="lazy" src="/brand/CafeRed_Logo.png" alt="Cafe Red" class="h-10 w-auto" />
+      <a href={`${base}/cafe-red/`} class="flex items-center gap-3">
+        <img loading="lazy" src={`${base}/brand/CafeRed_Logo.png`} alt="Cafe Red" class="h-10 w-auto" />
       </a>
 
       <button id="cr-mobile-menu-btn" class="md:hidden p-2" aria-label="Toggle menu">
@@ -179,7 +180,7 @@ const navLinks = [
     <div class="max-w-6xl mx-auto px-4 py-12">
       <div class="grid md:grid-cols-3 gap-8">
         <div>
-          <img loading="lazy" src="/brand/CafeRed_Logo_Footer.png" alt="Cafe Red" class="h-8 w-auto mb-4" />
+          <img loading="lazy" src={`${base}/brand/CafeRed_Logo_Footer.png`} alt="Cafe Red" class="h-8 w-auto mb-4" />
           <p class="text-sm text-cafered-300 leading-relaxed">
             {content.aboutBody || 'Upscale casual Italian-American dining in the heart of Kings Park. Fresh ingredients, warm ambiance, unforgettable meals.'}
           </p>
