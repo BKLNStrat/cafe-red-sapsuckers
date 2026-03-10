@@ -9,12 +9,12 @@ interface PreviewResult {
 }
 
 export function SitePreviewTool() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<string | null>(null)
   const [result, setResult] = useState<PreviewResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const buildPreview = async () => {
-    setLoading(true)
+  const buildPreview = async (site: 'both' | 'cafe-red' | 'sapsuckers') => {
+    setLoading(site)
     setError(null)
     setResult(null)
 
@@ -26,6 +26,12 @@ export function SitePreviewTool() {
       const data: PreviewResult = await res.json()
       if (res.ok && data.status === 'ok') {
         setResult(data)
+        // Auto-open the requested site in a new tab
+        if (site === 'cafe-red' && data.cafeRedUrl) {
+          window.open(data.cafeRedUrl, '_blank')
+        } else if (site === 'sapsuckers' && data.sapsuckersUrl) {
+          window.open(data.sapsuckersUrl, '_blank')
+        }
       } else if (data.status === 'already_building') {
         setError('A preview is already being built. Please wait a moment and try again.')
       } else {
@@ -34,7 +40,7 @@ export function SitePreviewTool() {
     } catch (err: any) {
       setError('Could not reach the preview server. Please try again.')
     } finally {
-      setLoading(false)
+      setLoading(null)
     }
   }
 
@@ -46,7 +52,7 @@ export function SitePreviewTool() {
             Preview Site
           </Text>
           <Text size={2} muted>
-            Build a private preview of both sites using your current saved drafts.
+            Build a private preview using your current saved drafts.
             Nothing goes live until you click Publish on individual items.
           </Text>
           <Text size={2} muted>
@@ -55,15 +61,32 @@ export function SitePreviewTool() {
           </Text>
         </Stack>
 
-        <Button
-          text={loading ? 'Building preview...' : 'Build Preview'}
-          tone="primary"
-          onClick={buildPreview}
-          disabled={loading}
-          fontSize={2}
-          padding={4}
-          style={{ width: '200px' }}
-        />
+        <Flex gap={3} wrap="wrap">
+          <Button
+            text={loading === 'cafe-red' ? 'Building...' : 'Preview Cafe Red'}
+            tone="primary"
+            onClick={() => buildPreview('cafe-red')}
+            disabled={loading !== null}
+            fontSize={2}
+            padding={4}
+          />
+          <Button
+            text={loading === 'sapsuckers' ? 'Building...' : 'Preview Sapsuckers'}
+            tone="primary"
+            onClick={() => buildPreview('sapsuckers')}
+            disabled={loading !== null}
+            fontSize={2}
+            padding={4}
+          />
+          <Button
+            text={loading === 'both' ? 'Building...' : 'Preview Both'}
+            tone="positive"
+            onClick={() => buildPreview('both')}
+            disabled={loading !== null}
+            fontSize={2}
+            padding={4}
+          />
+        </Flex>
 
         {loading && (
           <Flex align="center" gap={3} padding={4}>
@@ -84,7 +107,7 @@ export function SitePreviewTool() {
           <Card padding={4} radius={2} shadow={1} tone="positive">
             <Stack space={4}>
               <Text size={2} weight="bold">
-                Preview is ready. Open in a new tab to review.
+                Preview is ready.
               </Text>
               <Text size={1} muted>
                 When you are happy with what you see, return here and click Publish
@@ -108,18 +131,6 @@ export function SitePreviewTool() {
                   rel="noopener noreferrer"
                 />
               </Flex>
-              <Box>
-                <Text size={1} muted>
-                  Direct links (bookmark these):{' '}
-                  <a href={result.cafeRedUrl} target="_blank" rel="noopener noreferrer">
-                    {result.cafeRedUrl}
-                  </a>
-                  {' '}·{' '}
-                  <a href={result.sapsuckersUrl} target="_blank" rel="noopener noreferrer">
-                    {result.sapsuckersUrl}
-                  </a>
-                </Text>
-              </Box>
             </Stack>
           </Card>
         )}
