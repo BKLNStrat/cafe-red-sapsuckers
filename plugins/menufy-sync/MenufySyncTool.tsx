@@ -61,8 +61,8 @@ export function MenufySyncTool() {
             Sync from Menufy
           </Text>
           <Text size={1} muted>
-            Pull the latest menu from your Menufy ordering pages into the dashboard.
-            New and changed items will appear as drafts for you to review and publish.
+            Pull the latest menu from your Menufy ordering pages. New items, price changes,
+            and removals are applied automatically -- no manual publishing needed.
           </Text>
         </Stack>
 
@@ -133,17 +133,17 @@ export function MenufySyncTool() {
                       <Text size={3} weight="bold">{result.unchanged}</Text>
                       <Text size={1} muted>Unchanged</Text>
                     </Stack>
-                    {(result.removedFromMenufy ?? 0) > 0 && (
+                    {(result.removed ?? 0) > 0 && (
                       <Stack space={1}>
-                        <Text size={3} weight="bold">{result.removedFromMenufy}</Text>
-                        <Text size={1} muted>Not on Menufy</Text>
+                        <Text size={3} weight="bold">{result.removed}</Text>
+                        <Text size={1} muted>Removed</Text>
                       </Stack>
                     )}
                   </Flex>
 
                   {result.changes.length > 0 && (
                     <Stack space={2}>
-                      <Text size={1} weight="bold">Changes (saved as drafts):</Text>
+                      <Text size={1} weight="bold">Changes:</Text>
                       {result.changes.slice(0, 20).map((change, i) => (
                         <Flex key={i} gap={2} align="center">
                           <Badge
@@ -171,9 +171,9 @@ export function MenufySyncTool() {
                     </Text>
                   )}
 
-                  {(result.added > 0 || result.updated > 0) && (
+                  {(result.added > 0 || result.updated > 0 || (result.removed ?? 0) > 0) && (
                     <Text size={1} muted>
-                      Changes are saved as drafts. Go to Dishes to review and publish them.
+                      All changes are live on the site. Rebuild may be needed for static pages.
                     </Text>
                   )}
                 </Stack>
