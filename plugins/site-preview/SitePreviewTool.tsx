@@ -19,7 +19,7 @@ export function SitePreviewTool() {
     setResult(null)
 
     try {
-      const res = await fetch('http://104.236.69.208:3849/preview', {
+      const res = await fetch('/api/preview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       })
