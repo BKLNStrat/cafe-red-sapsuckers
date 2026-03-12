@@ -1,36 +1,50 @@
 import { useState } from 'react'
-import { Card, Stack, Button, Text, Flex, Spinner, Box } from '@sanity/ui'
+import { Card, Stack, Button, Text, Flex, Spinner } from '@sanity/ui'
+
+type SiteKey = 'both' | 'cafe-red' | 'sapsuckers'
 
 interface PreviewResult {
   status: 'ok' | 'error' | 'already_building'
   cafeRedUrl?: string
   sapsuckersUrl?: string
   message?: string
+  timestamp?: string
+}
+
+const getPreviewEndpoint = () => {
+  if (process.env.SANITY_STUDIO_PREVIEW_ENDPOINT) {
+    return process.env.SANITY_STUDIO_PREVIEW_ENDPOINT
+  }
+  if (typeof window !== 'undefined') {
+    const base = window.location.origin.replace(/\/$/, '')
+    return `${base}/preview-status.json`
+  }
+  return 'http://104.236.69.208/preview-status.json'
 }
 
 export function SitePreviewTool() {
-  const [loading, setLoading] = useState<string | null>(null)
+  const [loading, setLoading] = useState<SiteKey | null>(null)
   const [result, setResult] = useState<PreviewResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const buildPreview = async (site: 'both' | 'cafe-red' | 'sapsuckers') => {
+  const buildPreview = async (site: SiteKey) => {
     setLoading(site)
     setError(null)
     setResult(null)
 
     try {
-      const res = await fetch('/api/preview', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      })
+      const endpoint = getPreviewEndpoint()
+      const res = await fetch(`${endpoint}?t=${Date.now()}`, { cache: 'no-store' })
       const data: PreviewResult = await res.json()
       if (res.ok && data.status === 'ok') {
         setResult(data)
-        // Auto-open the requested site in a new tab
         if (site === 'cafe-red' && data.cafeRedUrl) {
           window.open(data.cafeRedUrl, '_blank')
         } else if (site === 'sapsuckers' && data.sapsuckersUrl) {
           window.open(data.sapsuckersUrl, '_blank')
+        } else if (site === 'both') {
+          if (data.cafeRedUrl) window.open(data.cafeRedUrl, '_blank')
+          if (data.sapsuckersUrl) window.open(data.sapsuckersUrl, '_blank')
         }
       } else if (data.status === 'already_building') {
         setError('A preview is already being built. Please wait a moment and try again.')
@@ -38,7 +52,7 @@ export function SitePreviewTool() {
         setError(data.message || 'Preview build failed. Please try again.')
       }
     } catch (err: any) {
-      setError('Could not reach the preview server. Please try again.')
+      setError(err?.message || 'Could not reach the preview server. Please try again.')
     } finally {
       setLoading(null)
     }
@@ -131,6 +145,11 @@ export function SitePreviewTool() {
                   rel="noopener noreferrer"
                 />
               </Flex>
+              {result.timestamp && (
+                <Text size={1} muted>
+                  Refreshed {new Date(result.timestamp).toLocaleTimeString()}
+                </Text>
+              )}
             </Stack>
           </Card>
         )}
