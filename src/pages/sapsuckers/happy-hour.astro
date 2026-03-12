@@ -1,0 +1,103 @@
+---
+import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+
+const happyHour = {
+  hours: [
+    'Monday — All Day',
+    'Tuesday–Friday — 12 p.m. to 6 p.m.',
+    'Friday & Saturday Late Night — 10 p.m. to 11 p.m.'
+  ],
+  locationNote: 'Available in the bar or the dining room.',
+  drinks: {
+    beer: '$2 off every draft beer',
+    cocktails: [
+      'Aperol Spritz',
+      'Hornitos Margarita',
+      'Tanqueray & Fever Tree Tonic',
+      'Dark & Stormy'
+    ],
+    wine: [
+      'Prosecco — Zardetto, Italy',
+      'Pinot Grigio — RIFF, Italy',
+      'Cabernet — Samuel Charles, California'
+    ]
+  },
+  snacks: [
+    'Eggs Nest — three organic farm eggs, spicy deviled style (GF)',
+    'Baby Nachos — house tortilla chips, cheddar & monterey, salsa fresca, guacamole, sour cream, jalapeños',
+    'Happy Wings — half dozen organic D’Artagnan wings (buffalo or BBQ)',
+    'Il Greco — feta, black olives, cucumber, cherry tomato, peppers, red onion, baby romaine, red wine vinaigrette',
+    'Saps Onion Rings — beer-battered Vidalia onion rings, pickle powder, Saps special sauce',
+    'Our House Fries — herb & sea salt fries, truffled balsamic aioli',
+    'Bavarian Pretzel — butter baked, cheesy sauce, spicy dijon'
+  ]
+};
+---
+<SapsuckersLayout
+  title="Happy Hour | Sapsuckers Hops & Grub"
+  description="Sapsuckers Happy Hour — drink specials and $10 bar bites in Huntington Village."
+  currentPage="happy-hour"
+>
+  <section class="relative py-16 md:py-24 bg-[#0f172a] text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-60" style="background-image:radial-gradient(circle at 20% 20%,rgba(255,255,255,.15),transparent 45%),radial-gradient(circle at 80% 0,rgba(255,255,255,.08),transparent 35%);"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6">
+      <p class="uppercase tracking-[0.4em] text-xs text-amber-200">Sapsuckers</p>
+      <h1 class="text-4xl md:text-5xl font-display font-bold">Happy Hour</h1>
+      <p class="text-amber-100 text-lg">{happyHour.locationNote}</p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24 bg-stone-50">
+    <div class="max-w-5xl mx-auto px-4 space-y-12">
+      <div class="bg-white shadow-xl rounded-3xl p-8 md:p-12 border border-stone-200">
+        <h2 class="text-2xl font-display text-slate-900 mb-4">Hours</h2>
+        <ul class="grid gap-2 text-slate-600">
+          {happyHour.hours.map((line) => (
+            <li>{line}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+          <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Beer</p>
+          <h3 class="text-3xl font-display text-slate-900 mb-4">Draft Specials</h3>
+          <p class="text-slate-600">{happyHour.drinks.beer}</p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+          <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Wine</p>
+          <h3 class="text-3xl font-display text-slate-900 mb-4">$8 Glasses</h3>
+          <ul class="space-y-2 text-slate-600">
+            {happyHour.drinks.wine.map((wine) => (
+              <li>{wine}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+        <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Cocktails</p>
+        <h3 class="text-3xl font-display text-slate-900 mb-6">$10 Signature Drinks</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-slate-700">
+          {happyHour.drinks.cocktails.map((cocktail) => (
+            <div class="flex items-center gap-3">
+              <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+              <span>{cocktail}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+        <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Happy Hour Grub</p>
+        <h3 class="text-3xl font-display text-slate-900 mb-4">$10 Bites</h3>
+        <ul class="space-y-3 text-slate-700">
+          {happyHour.snacks.map((item) => (
+            <li class="leading-relaxed">{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</SapsuckersLayout>

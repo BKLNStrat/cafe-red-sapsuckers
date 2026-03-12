@@ -78,6 +78,33 @@ if (!menuSections.length) {
     ]},
   ];
 }
+
+const normalizeTitle = (title: string = '') => title.toLowerCase();
+const dinnerSections: MenuSection[] = [];
+const lunchSections: MenuSection[] = [];
+
+for (const section of menuSections) {
+  const title = section.title || '';
+  const normalized = normalizeTitle(title);
+  const isLunch = normalized.includes('lunch') || normalized.includes('brunch');
+  const isDinner = normalized.includes('dinner') || normalized.includes('special') || normalized.includes('dessert') || normalized.includes('prix');
+
+  if (isLunch) {
+    lunchSections.push(section);
+  } else if (isDinner) {
+    dinnerSections.push(section);
+  } else {
+    // default to dinner tab so sections like "Specials" or "Sides" still render
+    dinnerSections.push(section);
+  }
+}
+
+const tabs = [
+  { id: 'dinner', label: 'Specials & Dinner', sections: dinnerSections },
+  { id: 'lunch', label: 'Lunch & Brunch', sections: lunchSections },
+].filter((tab) => tab.sections.length > 0);
+
+const defaultTabId = tabs[0]?.id || 'dinner';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <CafeRedLayout title="Menu | Cafe Red" description="Full menu at Cafe Red -- new American and Italian cuisine, brunch, lunch, dinner, and full bar in Kings Park, NY." currentPage="menu">
@@ -95,38 +122,96 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </div>
 
   <section class="py-16 md:py-24 bg-stone-50">
-    <div class="max-w-4xl mx-auto px-4">
-      {menuSections.filter(s => s.items.length > 0).map((section, i) => (
-        <div class={i > 0 ? 'mt-16' : ''}>
-          <div class="flex items-center gap-4 mb-2">
-            <h2 class="text-2xl md:text-3xl font-display font-bold text-cafered-500 whitespace-nowrap">{section.title}</h2>
-            <div class="flex-1 h-px bg-red-200"></div>
-          </div>
-          {section.subtitle && <p class="text-sm text-gray-500 mb-6">{section.subtitle}</p>}
-          <div class={`grid gap-4 ${section.subtitle ? '' : 'mt-6'}`}>
-            {section.items.map(item => (
-              <div class="flex items-start justify-between gap-4 py-2 border-b border-gray-200 last:border-0">
-                <div>
-                  <span class="text-base font-medium text-gray-900">{item.name}</span>
-                  {item.tags?.length && (
-                    <span class="inline-flex gap-1 ml-2">
-                      {item.tags.map((t) => (
-                        <span class="text-[10px] uppercase tracking-wider bg-cafered-50 text-cafered-700 px-1.5 py-0.5 rounded">{t === 'gf' ? 'GF' : t}</span>
-                      ))}
-                    </span>
-                  )}
-                  {item.desc && <p class="text-sm text-gray-500 mt-0.5">{item.desc}</p>}
-                </div>
-                <span class="text-base text-gray-500 font-medium whitespace-nowrap">{formatPrice(item.price)}</span>
-              </div>
+    <div class="max-w-4xl mx-auto px-4" data-tab-container data-default-tab={`tab-${defaultTabId}`}>
+      {tabs.length > 1 && (
+        <div class="flex flex-col gap-4 mb-10">
+          <div class="flex justify-center gap-8 border-b border-gray-200">
+            {tabs.map((tab, index) => (
+              <button
+                id={`btn-tab-${tab.id}`}
+                type="button"
+                class={`menu-tab-button pb-4 px-2 font-display text-xl font-bold border-b-2 transition ${index === 0 ? 'border-cafered-500 text-cafered-500' : 'border-transparent text-gray-500 hover:text-cafered-500'}`}
+                onclick={`switchTab('tab-${tab.id}')`}
+              >
+                {tab.label}
+              </button>
             ))}
           </div>
+          <p class="text-xs text-gray-500 text-center">
+            Sections appear in the same order you set inside the dashboard. Use the buttons above to jump between service periods.
+          </p>
+        </div>
+      )}
+
+      {tabs.map((tab, index) => (
+        <div id={`tab-${tab.id}`} class={`menu-tab-content ${index === 0 ? '' : 'hidden'}`}>
+          {tab.sections.map((section, i) => (
+            <div class={i > 0 ? 'mt-16' : ''}>
+              <div class="flex items-center gap-4 mb-2">
+                <h2 class="text-2xl md:text-3xl font-display font-bold text-cafered-500 whitespace-nowrap">{section.title}</h2>
+                <div class="flex-1 h-px bg-red-200"></div>
+              </div>
+              {section.subtitle && <p class="text-sm text-gray-500 mb-6">{section.subtitle}</p>}
+              <div class={`grid gap-4 ${section.subtitle ? '' : 'mt-6'}`}>
+                {section.items.map((item) => (
+                  <div class="flex items-start justify-between gap-4 py-2 border-b border-gray-200 last:border-0">
+                    <div>
+                      <span class="text-base font-medium text-gray-900">{item.name}</span>
+                      {item.tags?.length > 0 && (
+                        <span class="inline-flex gap-1 ml-2">
+                          {item.tags.map((t: string) => (
+                            <span class="text-[10px] uppercase tracking-wider bg-cafered-50 text-cafered-700 px-1.5 py-0.5 rounded">{t === 'gf' ? 'GF' : t}</span>
+                          ))}
+                        </span>
+                      )}
+                      {item.desc && <p class="text-sm text-gray-500 mt-0.5">{item.desc}</p>}
+                    </div>
+                    <span class="text-base text-gray-500 font-medium whitespace-nowrap">{formatPrice(item.price)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ))}
+
+      {tabs.length === 0 && (
+        <div>
+          <p class="text-gray-500">Our full menu is being refreshed. Please check back shortly.</p>
+        </div>
+      )}
+
       <div class="mt-16 text-center">
         <p class="text-sm text-gray-500 mb-6">Prices and availability subject to change. Please inform your server of any allergies.</p>
         <a href={loc.orderUrl} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3 bg-cafered-500 text-white font-semibold rounded hover:bg-cafered-600 transition text-sm">Order Online Now</a>
       </div>
     </div>
   </section>
+
+<script>
+  function switchTab(tabId) {
+    document.querySelectorAll('.menu-tab-content').forEach((el) => {
+      el.classList.add('hidden');
+    });
+    document.querySelectorAll('.menu-tab-button').forEach((el) => {
+      el.classList.remove('border-cafered-500', 'text-cafered-500');
+      el.classList.add('border-transparent', 'text-gray-500');
+    });
+
+    const panel = document.getElementById(tabId);
+    const button = document.getElementById('btn-' + tabId);
+    if (panel) panel.classList.remove('hidden');
+    if (button) {
+      button.classList.remove('border-transparent', 'text-gray-500');
+      button.classList.add('border-cafered-500', 'text-cafered-500');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('[data-tab-container]');
+    const defaultTab = container?.getAttribute('data-default-tab') || 'tab-dinner';
+    switchTab(defaultTab);
+  });
+</script>
+
 </CafeRedLayout>

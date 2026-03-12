@@ -4,6 +4,10 @@ import { sanityClient } from 'sanity:client';
 import { getLocation, getSiteContent } from '../../lib/locations';
 const loc = await getLocation('cafe-red');
 const content = await getSiteContent('cafe-red');
+const aboutParagraphs = (content.aboutBody || '')
+  .split(/\n{2,}/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean);
 
 let events: any[] = [];
 try {
@@ -55,15 +59,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-6">
             New American Cuisine with Italian Flair
           </h2>
-          <p class="text-gray-600 leading-relaxed mb-4">
-            A warm, woodsy spot with a full bar serving Italian fare and creative takes on American eats. Our kitchen showcases local and organic ingredients to create a menu of refined new American fare.
-          </p>
-          <p class="text-gray-600 leading-relaxed mb-4">
-            {content.aboutBody || 'From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park. Full liquor license -- enjoy cocktails, wine, and beer with your lunch or dinner.'}
-          </p>
-          <p class="text-gray-600 leading-relaxed mb-8">
-            Open seven days for brunch, lunch, and dinner. Call ahead for reservations or curbside pickup.
-          </p>
+          {(aboutParagraphs.length ? aboutParagraphs : [
+            'From housemade pastas and brunch classics to perfectly prepared steaks and seafood, Cafe Red brings warmth and character to Kings Park. Full liquor license -- enjoy cocktails, wine, and beer with your lunch or dinner.',
+            'Open seven days for brunch, lunch, and dinner. Call ahead for reservations or curbside pickup.',
+          ]).map((paragraph, idx, arr) => (
+            <p class={`text-gray-600 leading-relaxed ${idx === (arr.length - 1) ? 'mb-8' : 'mb-4'}`}>
+              {paragraph}
+            </p>
+          ))}
           <a href={`${base}/cafe-red/menu/`} class="inline-block text-sm font-semibold px-6 py-3 bg-cafered-500 text-white rounded hover:bg-cafered-600 transition">
             View Our Menu
           </a>

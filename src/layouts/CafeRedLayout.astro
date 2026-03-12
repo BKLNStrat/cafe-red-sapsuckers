@@ -16,12 +16,13 @@ const { title, description = 'Cafe Red -- new American cuisine with Italian flai
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const navLinks = [
-  { href: `${base}/cafe-red/`, label: 'Home' },
-  { href: `${base}/cafe-red/menu/`, label: 'Menu' },
-  { href: `${base}/cafe-red/parties/`, label: 'Parties' },
-  { href: `${base}/cafe-red/gallery/`, label: 'Gallery' },
-  { href: `${base}/cafe-red/faq/`, label: 'FAQ' },
-  { href: `${base}/cafe-red/contact/`, label: 'Contact' },
+  { key: 'home', href: `${base}/cafe-red/`, label: 'Home' },
+  { key: 'menu', href: `${base}/cafe-red/menu/`, label: 'Menu' },
+  { key: 'prix-fixe', href: `${base}/cafe-red/prix-fixe/`, label: 'Prix Fixe' },
+  { key: 'parties', href: `${base}/cafe-red/parties/`, label: 'Parties' },
+  { key: 'gallery', href: `${base}/cafe-red/gallery/`, label: 'Gallery' },
+  { key: 'faq', href: `${base}/cafe-red/faq/`, label: 'FAQ' },
+  { key: 'contact', href: `${base}/cafe-red/contact/`, label: 'Contact' },
 ];
 ---
 <BaseLayout title={title} description={description}>
@@ -113,7 +114,7 @@ const navLinks = [
           <a
             href={link.href}
             class={`text-sm font-medium transition-colors hover:text-cafered-500 ${
-              currentPage === link.label.toLowerCase() ? 'text-cafered-500' : 'text-gray-500'
+              currentPage === link.key ? 'text-cafered-500' : 'text-gray-500'
             }`}
           >
             {link.label}
@@ -144,7 +145,7 @@ const navLinks = [
           <a
             href={link.href}
             class={`block text-sm font-medium ${
-              currentPage === link.label.toLowerCase() ? 'text-cafered-500' : 'text-gray-500'
+              currentPage === link.key ? 'text-cafered-500' : 'text-gray-500'
             }`}
           >
             {link.label}

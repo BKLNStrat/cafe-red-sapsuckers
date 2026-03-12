@@ -16,12 +16,13 @@ const { title, description = 'Sapsuckers Hops & Grub -- craft beer and gastropub
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const navLinks = [
-  { href: `${base}/sapsuckers/`, label: 'Home' },
-  { href: `${base}/sapsuckers/menu/`, label: 'Menu' },
-  { href: `${base}/sapsuckers/beer/`, label: 'Beer' },
-  { href: `${base}/sapsuckers/gallery/`, label: 'Gallery' },
-  { href: `${base}/sapsuckers/faq/`, label: 'FAQ' },
-  { href: `${base}/sapsuckers/contact/`, label: 'Contact' },
+  { key: 'home', href: `${base}/sapsuckers/`, label: 'Home' },
+  { key: 'menu', href: `${base}/sapsuckers/menu/`, label: 'Menu' },
+  { key: 'happy-hour', href: `${base}/sapsuckers/happy-hour/`, label: 'Happy Hour' },
+  { key: 'beer', href: `${base}/sapsuckers/beer/`, label: 'Beer' },
+  { key: 'gallery', href: `${base}/sapsuckers/gallery/`, label: 'Gallery' },
+  { key: 'faq', href: `${base}/sapsuckers/faq/`, label: 'FAQ' },
+  { key: 'contact', href: `${base}/sapsuckers/contact/`, label: 'Contact' },
 ];
 ---
 <BaseLayout title={title} description={description}>
@@ -117,7 +118,7 @@ const navLinks = [
           <a
             href={link.href}
             class={`text-sm font-medium transition-colors hover:text-gray-900 ${
-              currentPage === link.label.toLowerCase() ? 'text-gray-900' : 'text-gray-500'
+              currentPage === link.key ? 'text-gray-900' : 'text-gray-500'
             }`}
           >
             {link.label}
@@ -148,7 +149,7 @@ const navLinks = [
           <a
             href={link.href}
             class={`block text-sm font-medium ${
-              currentPage === link.label.toLowerCase() ? 'text-gray-900' : 'text-gray-500'
+              currentPage === link.key ? 'text-gray-900' : 'text-gray-500'
             }`}
           >
             {link.label}
