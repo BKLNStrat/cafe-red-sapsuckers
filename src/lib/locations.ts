@@ -56,7 +56,7 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     name: 'Cafe Red',
     phone: '(631) 544-4500',
     phoneTel: '+16315444500',
-    address: '2 Pulaski Rd',
+    address: '107 Main Street',
     city: 'Kings Park',
     state: 'NY',
     zip: '11754',
