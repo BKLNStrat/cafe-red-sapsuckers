@@ -34,7 +34,7 @@ export interface SiteContentData {
 const LOCATION_DEFAULTS: Record<string, LocationData> = {
   sapsuckers: {
     name: 'Sapsuckers Hops & Grub',
-    phone: '(631) 923-3065',
+    phone: '(631) 683-4945',
     phoneTel: '+16319233065',
     address: '287 Main St',
     city: 'Huntington',
