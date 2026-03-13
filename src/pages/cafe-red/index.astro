@@ -134,7 +134,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="relative z-10 text-center text-white px-4">
       <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Join Us in {loc.city}</h2>
       <p class="text-lg opacity-80 mb-2">{loc.address}, {loc.city}, {loc.state} {loc.zip}</p>
-      <p class="text-lg opacity-80 mb-8">{loc.phone}</p>
+      <p class="text-lg opacity-80 mb-8"><a href={`tel:${loc.phoneTel}`} class="hover:underline">{loc.phone}</a></p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href={loc.orderUrl}

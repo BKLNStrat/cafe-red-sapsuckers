@@ -18,14 +18,14 @@ if (!faqs.length) {
   faqs = [
     { question: "What type of cuisine does Cafe Red serve?", answer: "Cafe Red serves new American cuisine with Italian flair. Our menu features housemade pastas, brunch classics, perfectly prepared steaks, seafood, and creative takes on American favorites. We use local and organic ingredients whenever possible." },
     { question: "What are Cafe Red's hours?", answer: `We are open seven days a week. ${loc.hours.map(h => h.days + ': ' + h.hours).join('. ')}.` },
-    { question: "Does Cafe Red take reservations?", answer: "Yes. You can make a reservation through OpenTable or by calling us at " + loc.phone + ". We recommend reservations for Friday and Saturday evenings." },
+    { question: "Does Cafe Red take reservations?", answer: `Yes. You can make a reservation through OpenTable or by calling us at <a href="tel:${loc.phoneTel}" class="underline">${loc.phone}</a>. We recommend reservations for Friday and Saturday evenings.` },
     { question: "Does Cafe Red offer online ordering?", answer: "Yes. You can order online for pickup or delivery through our Menufy ordering page. Visit ordercafered.com to place your order." },
     { question: "Where is Cafe Red located?", answer: `Cafe Red is located at ${loc.address}, ${loc.city}, ${loc.state} ${loc.zip}. We are in the heart of Kings Park on Long Island.` },
     { question: "Does Cafe Red serve brunch?", answer: "Yes. We serve brunch seven days a week. Our brunch menu includes Belgian waffles, eggs Benedict, omelettes, pancakes, and more." },
     { question: "Does Cafe Red have a full bar?", answer: "Yes. Cafe Red has a full liquor license. We offer cocktails, an extensive wine list, and a selection of craft beers on tap and by the bottle." },
-    { question: "Does Cafe Red offer private dining or events?", answer: "Yes. Please call us at " + loc.phone + " to discuss private dining options, party bookings, and special events." },
+    { question: "Does Cafe Red offer private dining or events?", answer: `Yes. Please call us at <a href="tel:${loc.phoneTel}" class="underline">${loc.phone}</a> to discuss private dining options, party bookings, and special events.` },
     { question: "Is Cafe Red good for a date night?", answer: "Absolutely. Cafe Red has a warm, intimate atmosphere with candlelit tables, a full bar, and refined Italian-American cuisine that makes it one of the best date night restaurants in Kings Park." },
-    { question: "Does Cafe Red have outdoor seating?", answer: "Please call us at " + loc.phone + " for current outdoor seating availability." },
+    { question: "Does Cafe Red have outdoor seating?", answer: `Please call us at <a href="tel:${loc.phoneTel}" class="underline">${loc.phone}</a> for current outdoor seating availability.` },
     { question: "Is there parking at Cafe Red?", answer: "Yes. There is free street parking and a municipal lot within walking distance of the restaurant." },
     { question: "What is the best restaurant near me in Kings Park, NY?", answer: "Cafe Red is a top-rated restaurant in Kings Park, NY, known for its new American cuisine with Italian flair, full bar, and warm atmosphere. We are located at " + loc.address + " and are open seven days a week for brunch, lunch, and dinner." },
   ];
@@ -61,7 +61,7 @@ const faqSchema = {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </summary>
-            <div class="px-6 pb-4 text-gray-600 leading-relaxed">{faq.answer}</div>
+            <div class="px-6 pb-4 text-gray-600 leading-relaxed" set:html={faq.answer} />
           </details>
         ))}
       </div>

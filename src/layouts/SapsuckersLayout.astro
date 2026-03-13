@@ -203,7 +203,7 @@ const navLinks = [
           <div class="text-sm space-y-1 text-gray-400 md:mt-10">
             <p>{loc.address}</p>
             <p>{loc.city}, {loc.state} {loc.zip}</p>
-            <p class="pt-2">{loc.phone}</p>
+            <p class="pt-2"><a href={`tel:${loc.phoneTel}`} class="hover:text-white transition">{loc.phone}</a></p>
           </div>
           <div class="flex gap-4 mt-4">
             {loc.facebookUrl && (
