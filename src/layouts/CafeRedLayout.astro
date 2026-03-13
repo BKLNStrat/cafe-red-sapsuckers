@@ -181,22 +181,22 @@ const navLinks = [
     <div class="max-w-6xl mx-auto px-4 py-12">
       <div class="grid md:grid-cols-3 gap-8">
         <div>
-          <img loading="lazy" src={`${base}/brand/CafeRed_Logo_Footer.png`} alt="Cafe Red" class="h-8 w-auto mb-4" />
+          <img loading="lazy" src={`${base}/brand/CafeRed_Logo_Footer.png`} alt="Cafe Red" class="h-8 w-auto mb-5" />
           <p class="text-sm text-cafered-300 leading-relaxed">
             {content.aboutBody || 'Upscale casual Italian-American dining in the heart of Kings Park. Fresh ingredients, warm ambiance, unforgettable meals.'}
           </p>
         </div>
         <div>
-          <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Hours</h3>
-          <div class="text-sm space-y-1 text-cafered-300">
+          <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-3">Hours</h3>
+          <div class="text-sm space-y-1 text-cafered-300 md:mt-8">
             {loc.hours.map((h) => (
               <p>{h.days}: {h.hours}</p>
             ))}
           </div>
         </div>
         <div>
-          <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Location</h3>
-          <div class="text-sm space-y-1 text-cafered-300">
+          <h3 class="text-white font-semibold text-sm uppercase tracking-wider mb-3">Location</h3>
+          <div class="text-sm space-y-1 text-cafered-300 md:mt-8">
             <p>{loc.address}</p>
             <p>{loc.city}, {loc.state} {loc.zip}</p>
             <p class="pt-2">{loc.phone}</p>
