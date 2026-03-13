@@ -18,6 +18,7 @@ export interface LocationData {
   orderUrl: string;
   reservationUrl: string;
   mapEmbedUrl: string;
+  mapDirectionsUrl: string;
   untappdEmbedUrl: string;
   facebookUrl: string;
   instagramUrl: string;
@@ -48,6 +49,7 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     orderUrl: 'https://www.ordersapsuckers.com/',
     reservationUrl: 'https://www.opentable.com/r/sapsuckers-hops-and-grub-huntington',
     mapEmbedUrl: '',
+    mapDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Sapsuckers+Hops+%26+Grub+287+Main+St+Huntington+NY+11743',
     untappdEmbedUrl: 'https://business.untappd.com/embeds/iframes/15551/58029',
     facebookUrl: '',
     instagramUrl: '',
@@ -70,6 +72,7 @@ const LOCATION_DEFAULTS: Record<string, LocationData> = {
     orderUrl: 'https://www.ordercafered.com/',
     reservationUrl: 'https://www.opentable.com/r/cafe-red-of-kings-park',
     mapEmbedUrl: '',
+    mapDirectionsUrl: 'https://www.google.com/maps/dir/?api=1&destination=Cafe+Red+107+Main+Street+Kings+Park+NY+11754',
     untappdEmbedUrl: '',
     facebookUrl: '',
     instagramUrl: '',
@@ -110,7 +113,7 @@ export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promis
   const defaults = LOCATION_DEFAULTS[restaurant];
   try {
     const data = await sanityClient.fetch(
-      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl, untappdEmbedUrl, facebookUrl, instagramUrl }`,
+      `*[_type == "location" && _id == $id][0]{ name, phone, address, city, state, zip, email, hours, orderUrl, reservationUrl, mapEmbedUrl, mapDirectionsUrl, untappdEmbedUrl, facebookUrl, instagramUrl }`,
       { id: `location-${restaurant}` }
     );
     if (data) {
@@ -130,6 +133,7 @@ export async function getLocation(restaurant: 'sapsuckers' | 'cafe-red'): Promis
         orderUrl: data.orderUrl || defaults.orderUrl,
         reservationUrl: data.reservationUrl || defaults.reservationUrl,
         mapEmbedUrl: data.mapEmbedUrl || defaults.mapEmbedUrl,
+        mapDirectionsUrl: data.mapDirectionsUrl || defaults.mapDirectionsUrl,
         untappdEmbedUrl: data.untappdEmbedUrl || defaults.untappdEmbedUrl,
         facebookUrl: data.facebookUrl || defaults.facebookUrl,
         instagramUrl: data.instagramUrl || defaults.instagramUrl,
