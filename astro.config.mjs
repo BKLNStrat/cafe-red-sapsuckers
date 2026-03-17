@@ -17,7 +17,7 @@ export default defineConfig({
       apiVersion: '2023-05-03',
       ...(isPreview
         ? {
-            perspective: 'previewDrafts',
+            perspective: 'drafts',
             token: process.env.SANITY_TOKEN,
           }
         : {}),

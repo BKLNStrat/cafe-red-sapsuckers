@@ -1,62 +1,93 @@
-import { useState } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Card, Stack, Button, Text, Flex, Spinner } from '@sanity/ui'
 
-type SiteKey = 'both' | 'cafe-red' | 'sapsuckers'
-
-interface PreviewResult {
-  status: 'ok' | 'error' | 'already_building'
+interface PreviewStatus {
+  status: 'idle' | 'building' | 'ok' | 'error' | 'already_building'
   cafeRedUrl?: string
   sapsuckersUrl?: string
   message?: string
   timestamp?: string
 }
 
-const getPreviewEndpoint = () => {
-  if (process.env.SANITY_STUDIO_PREVIEW_ENDPOINT) {
-    return process.env.SANITY_STUDIO_PREVIEW_ENDPOINT
-  }
+const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
-    const base = window.location.origin.replace(/\/$/, '')
-    return `${base}/preview-status.json`
+    return window.location.origin.replace(/\/$/, '')
   }
-  return 'http://104.236.69.208/preview-status.json'
+  return 'http://104.236.69.208:3333'
 }
 
 export function SitePreviewTool() {
-  const [loading, setLoading] = useState<SiteKey | null>(null)
-  const [result, setResult] = useState<PreviewResult | null>(null)
+  const [building, setBuilding] = useState(false)
+  const [status, setStatus] = useState<PreviewStatus | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  const buildPreview = async (site: SiteKey) => {
-    setLoading(site)
+  const stopPolling = useCallback(() => {
+    if (pollRef.current) {
+      clearInterval(pollRef.current)
+      pollRef.current = null
+    }
+  }, [])
+
+  const pollStatus = useCallback(async (): Promise<PreviewStatus> => {
+    const base = getBaseUrl()
+    const res = await fetch(`${base}/api/preview-status?t=${Date.now()}`, { cache: 'no-store' })
+    return await res.json()
+  }, [])
+
+  const startBuild = useCallback(async () => {
+    setBuilding(true)
     setError(null)
-    setResult(null)
+    setStatus(null)
+    stopPolling()
 
     try {
-      const endpoint = getPreviewEndpoint()
-      const res = await fetch(`${endpoint}?t=${Date.now()}`, { cache: 'no-store' })
-      const data: PreviewResult = await res.json()
-      if (res.ok && data.status === 'ok') {
-        setResult(data)
-        if (site === 'cafe-red' && data.cafeRedUrl) {
-          window.open(data.cafeRedUrl, '_blank')
-        } else if (site === 'sapsuckers' && data.sapsuckersUrl) {
-          window.open(data.sapsuckersUrl, '_blank')
-        } else if (site === 'both') {
-          if (data.cafeRedUrl) window.open(data.cafeRedUrl, '_blank')
-          if (data.sapsuckersUrl) window.open(data.sapsuckersUrl, '_blank')
-        }
-      } else if (data.status === 'already_building') {
-        setError('A preview is already being built. Please wait a moment and try again.')
-      } else {
-        setError(data.message || 'Preview build failed. Please try again.')
+      const base = getBaseUrl()
+      const res = await fetch(`${base}/api/preview`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+      const data = await res.json()
+
+      if (data.status === 'already_building' || data.status === 'building') {
+        // Poll for completion
+        pollRef.current = setInterval(async () => {
+          try {
+            const s = await pollStatus()
+            if (s.status === 'ok') {
+              setStatus(s)
+              setBuilding(false)
+              stopPolling()
+            } else if (s.status === 'error') {
+              setError(s.message || 'Preview build failed.')
+              setBuilding(false)
+              stopPolling()
+            }
+            // If still "building", keep polling
+          } catch {
+            // Ignore transient fetch errors during polling
+          }
+        }, 2000)
+      } else if (data.status === 'ok') {
+        setStatus(data)
+        setBuilding(false)
+      } else if (data.status === 'error') {
+        setError(data.message || 'Preview build failed.')
+        setBuilding(false)
       }
     } catch (err: any) {
       setError(err?.message || 'Could not reach the preview server. Please try again.')
-    } finally {
-      setLoading(null)
+      setBuilding(false)
     }
-  }
+  }, [stopPolling, pollStatus])
+
+  const openPreview = useCallback((url: string) => {
+    const base = getBaseUrl()
+    // If URL is relative, make it absolute
+    const fullUrl = url.startsWith('http') ? url : `${base}${url}`
+    window.open(fullUrl, '_blank')
+  }, [])
 
   return (
     <Card padding={5}>
@@ -77,32 +108,16 @@ export function SitePreviewTool() {
 
         <Flex gap={3} wrap="wrap">
           <Button
-            text={loading === 'cafe-red' ? 'Building...' : 'Preview Cafe Red'}
-            tone="primary"
-            onClick={() => buildPreview('cafe-red')}
-            disabled={loading !== null}
-            fontSize={2}
-            padding={4}
-          />
-          <Button
-            text={loading === 'sapsuckers' ? 'Building...' : 'Preview Sapsuckers'}
-            tone="primary"
-            onClick={() => buildPreview('sapsuckers')}
-            disabled={loading !== null}
-            fontSize={2}
-            padding={4}
-          />
-          <Button
-            text={loading === 'both' ? 'Building...' : 'Preview Both'}
+            text={building ? 'Building Preview...' : 'Build Preview'}
             tone="positive"
-            onClick={() => buildPreview('both')}
-            disabled={loading !== null}
+            onClick={startBuild}
+            disabled={building}
             fontSize={2}
             padding={4}
           />
         </Flex>
 
-        {loading && (
+        {building && (
           <Flex align="center" gap={3} padding={4}>
             <Spinner muted />
             <Text muted>
@@ -117,37 +132,39 @@ export function SitePreviewTool() {
           </Card>
         )}
 
-        {result?.status === 'ok' && (
+        {status?.status === 'ok' && !building && (
           <Card padding={4} radius={2} shadow={1} tone="positive">
             <Stack space={4}>
               <Text size={2} weight="bold">
                 Preview is ready.
               </Text>
               <Text size={1} muted>
-                When you are happy with what you see, return here and click Publish
-                on each item to make it live. The live site updates in about 10 seconds.
+                Review your changes below. When you are happy with what you see, return
+                here and click Publish on each item you changed.
               </Text>
               <Flex gap={3} wrap="wrap">
-                <Button
-                  text="Open Cafe Red Preview"
-                  tone="default"
-                  as="a"
-                  href={result.cafeRedUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
-                <Button
-                  text="Open Sapsuckers Preview"
-                  tone="default"
-                  as="a"
-                  href={result.sapsuckersUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                />
+                {status.cafeRedUrl && (
+                  <Button
+                    text="Open Cafe Red Preview"
+                    tone="primary"
+                    onClick={() => openPreview(status.cafeRedUrl!)}
+                    fontSize={2}
+                    padding={4}
+                  />
+                )}
+                {status.sapsuckersUrl && (
+                  <Button
+                    text="Open Sapsuckers Preview"
+                    tone="primary"
+                    onClick={() => openPreview(status.sapsuckersUrl!)}
+                    fontSize={2}
+                    padding={4}
+                  />
+                )}
               </Flex>
-              {result.timestamp && (
+              {status.timestamp && (
                 <Text size={1} muted>
-                  Refreshed {new Date(result.timestamp).toLocaleTimeString()}
+                  Built at {new Date(status.timestamp).toLocaleTimeString()}
                 </Text>
               )}
             </Stack>
