@@ -1,41 +1,67 @@
 ---
 import SapsuckersLayout from '../../layouts/SapsuckersLayout.astro';
+import { getHappyHourMenu } from '../../lib/sanity';
 
-const happyHour = {
+// Fetch from CMS
+const cmsData = await getHappyHourMenu('sapsuckers');
+
+// Hardcoded fallback
+const fallback = {
   hours: [
     'Monday — All Day',
     'Tuesday–Friday — 12 p.m. to 6 p.m.',
-    'Friday & Saturday Late Night — 10 p.m. to 11 p.m.'
+    'Friday & Saturday Late Night — 10 p.m. to 11 p.m.',
   ],
   locationNote: 'Available in the bar or the dining room.',
-  drinks: {
-    beer: '$2 off every draft beer',
-    cocktails: [
-      'Aperol Spritz',
-      'Hornitos Margarita',
-      'Tanqueray & Fever Tree Tonic',
-      'Dark & Stormy'
-    ],
-    wine: [
-      'Prosecco — Zardetto, Italy',
-      'Pinot Grigio — RIFF, Italy',
-      'Cabernet — Samuel Charles, California'
-    ]
-  },
+  drinkSections: [
+    {
+      heading: 'Draft Specials',
+      description: '$2 off every draft beer',
+      items: [],
+    },
+    {
+      heading: '$8 Glasses',
+      description: null,
+      items: [
+        { name: 'Prosecco — Zardetto, Italy', desc: '' },
+        { name: 'Pinot Grigio — RIFF, Italy', desc: '' },
+        { name: 'Cabernet — Samuel Charles, California', desc: '' },
+      ],
+    },
+    {
+      heading: '$10 Signature Drinks',
+      description: null,
+      items: [
+        { name: 'Aperol Spritz', desc: '' },
+        { name: 'Hornitos Margarita', desc: '' },
+        { name: 'Tanqueray & Fever Tree Tonic', desc: '' },
+        { name: 'Dark & Stormy', desc: '' },
+      ],
+    },
+  ],
   snacks: [
-    'Eggs Nest — three organic farm eggs, spicy deviled style (GF)',
-    'Baby Nachos — house tortilla chips, cheddar & monterey, salsa fresca, guacamole, sour cream, jalapeños',
-    'Happy Wings — half dozen organic D’Artagnan wings (buffalo or BBQ)',
-    'Il Greco — feta, black olives, cucumber, cherry tomato, peppers, red onion, baby romaine, red wine vinaigrette',
-    'Saps Onion Rings — beer-battered Vidalia onion rings, pickle powder, Saps special sauce',
-    'Our House Fries — herb & sea salt fries, truffled balsamic aioli',
-    'Bavarian Pretzel — butter baked, cheesy sauce, spicy dijon'
-  ]
+    { name: 'Eggs Nest', desc: 'three organic farm eggs, spicy deviled style (GF)' },
+    { name: 'Baby Nachos', desc: 'house tortilla chips, cheddar & monterey, salsa fresca, guacamole, sour cream, jalapeños' },
+    { name: 'Happy Wings', desc: "half dozen organic D'Artagnan wings (buffalo or BBQ)" },
+    { name: 'Il Greco', desc: 'feta, black olives, cucumber, cherry tomato, peppers, red onion, baby romaine, red wine vinaigrette' },
+    { name: 'Saps Onion Rings', desc: 'beer-battered Vidalia onion rings, pickle powder, Saps special sauce' },
+    { name: 'Our House Fries', desc: 'herb & sea salt fries, truffled balsamic aioli' },
+    { name: 'Bavarian Pretzel', desc: 'butter baked, cheesy sauce, spicy dijon' },
+  ],
+  snacksHeading: '$10 Bar Bites',
 };
+
+const happyHour = cmsData || fallback;
+
+// Separate drink sections by type for display
+const beerSection = happyHour.drinkSections?.find((s: any) => s.heading?.toLowerCase().includes('draft') || s.heading?.toLowerCase().includes('beer'));
+const wineSection = happyHour.drinkSections?.find((s: any) => s.heading?.toLowerCase().includes('wine') || s.heading?.toLowerCase().includes('glass'));
+const cocktailSection = happyHour.drinkSections?.find((s: any) => s.heading?.toLowerCase().includes('cocktail') || s.heading?.toLowerCase().includes('signature') || s.heading?.toLowerCase().includes('drink'));
+const otherSections = happyHour.drinkSections?.filter((s: any) => s !== beerSection && s !== wineSection && s !== cocktailSection) || [];
 ---
 <SapsuckersLayout
   title="Happy Hour | Sapsuckers Hops & Grub"
-  description="Sapsuckers Happy Hour — drink specials and $10 bar bites in Huntington Village."
+  description="Sapsuckers Happy Hour — drink specials and bar bites in Huntington Village."
   currentPage="happy-hour"
 >
   <section class="relative py-16 md:py-24 bg-[#0f172a] text-white overflow-hidden">
@@ -43,61 +69,97 @@ const happyHour = {
     <div class="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6">
       <p class="uppercase tracking-[0.4em] text-xs text-amber-200">Sapsuckers</p>
       <h1 class="text-4xl md:text-5xl font-display font-bold">Happy Hour</h1>
-      <p class="text-amber-100 text-lg">{happyHour.locationNote}</p>
+      {happyHour.locationNote && <p class="text-amber-100 text-lg">{happyHour.locationNote}</p>}
     </div>
   </section>
 
   <section class="py-16 md:py-24 bg-stone-50">
     <div class="max-w-5xl mx-auto px-4 space-y-12">
+      {/* Hours */}
       <div class="bg-white shadow-xl rounded-3xl p-8 md:p-12 border border-stone-200">
         <h2 class="text-2xl font-display text-slate-900 mb-4">Hours</h2>
         <ul class="grid gap-2 text-slate-600">
-          {happyHour.hours.map((line) => (
+          {happyHour.hours?.map((line: string) => (
             <li>{line}</li>
           ))}
         </ul>
       </div>
 
+      {/* Beer + Wine side by side */}
       <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
-          <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Beer</p>
-          <h3 class="text-3xl font-display text-slate-900 mb-4">Draft Specials</h3>
-          <p class="text-slate-600">{happyHour.drinks.beer}</p>
-        </div>
+        {beerSection && (
+          <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+            <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Beer</p>
+            <h3 class="text-3xl font-display text-slate-900 mb-4">{beerSection.heading}</h3>
+            {beerSection.description && <p class="text-slate-600">{beerSection.description}</p>}
+            {beerSection.items?.length > 0 && (
+              <ul class="space-y-2 text-slate-600 mt-3">
+                {beerSection.items.map((item: any) => (
+                  <li>{item.name}{item.desc ? ` — ${item.desc}` : ''}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
+        {wineSection && (
+          <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+            <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Wine</p>
+            <h3 class="text-3xl font-display text-slate-900 mb-4">{wineSection.heading}</h3>
+            {wineSection.description && <p class="text-slate-600 mb-3">{wineSection.description}</p>}
+            <ul class="space-y-2 text-slate-600">
+              {wineSection.items?.map((item: any) => (
+                <li>{item.name}{item.desc ? ` — ${item.desc}` : ''}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Cocktails */}
+      {cocktailSection && (
         <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
-          <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Wine</p>
-          <h3 class="text-3xl font-display text-slate-900 mb-4">$8 Glasses</h3>
-          <ul class="space-y-2 text-slate-600">
-            {happyHour.drinks.wine.map((wine) => (
-              <li>{wine}</li>
+          <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Cocktails</p>
+          <h3 class="text-3xl font-display text-slate-900 mb-6">{cocktailSection.heading}</h3>
+          {cocktailSection.description && <p class="text-slate-600 mb-4">{cocktailSection.description}</p>}
+          <div class="grid md:grid-cols-2 gap-4 text-slate-700">
+            {cocktailSection.items?.map((item: any) => (
+              <div class="flex items-center gap-3">
+                <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                <span>{item.name}{item.desc ? ` — ${item.desc}` : ''}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Other drink sections */}
+      {otherSections.map((section: any) => (
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+          <h3 class="text-3xl font-display text-slate-900 mb-4">{section.heading}</h3>
+          {section.description && <p class="text-slate-600 mb-3">{section.description}</p>}
+          <ul class="space-y-2 text-slate-700">
+            {section.items?.map((item: any) => (
+              <li>{item.name}{item.desc ? ` — ${item.desc}` : ''}</li>
             ))}
           </ul>
         </div>
-      </div>
+      ))}
 
-      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
-        <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Cocktails</p>
-        <h3 class="text-3xl font-display text-slate-900 mb-6">$10 Signature Drinks</h3>
-        <div class="grid md:grid-cols-2 gap-4 text-slate-700">
-          {happyHour.drinks.cocktails.map((cocktail) => (
-            <div class="flex items-center gap-3">
-              <span class="h-2 w-2 rounded-full bg-amber-500"></span>
-              <span>{cocktail}</span>
-            </div>
-          ))}
+      {/* Bar Bites / Snacks */}
+      {happyHour.snacks?.length > 0 && (
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
+          <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Happy Hour Grub</p>
+          <h3 class="text-3xl font-display text-slate-900 mb-4">{happyHour.snacksHeading || 'Bar Bites'}</h3>
+          <ul class="space-y-3 text-slate-700">
+            {happyHour.snacks.map((item: any) => (
+              <li class="leading-relaxed">
+                {item.name}{item.desc ? ` — ${item.desc}` : ''}
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
-
-      <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-md">
-        <p class="uppercase tracking-[0.3em] text-xs text-amber-600 mb-2">Happy Hour Grub</p>
-        <h3 class="text-3xl font-display text-slate-900 mb-4">$10 Bites</h3>
-        <ul class="space-y-3 text-slate-700">
-          {happyHour.snacks.map((item) => (
-            <li class="leading-relaxed">{item}</li>
-          ))}
-        </ul>
-      </div>
+      )}
     </div>
   </section>
 </SapsuckersLayout>

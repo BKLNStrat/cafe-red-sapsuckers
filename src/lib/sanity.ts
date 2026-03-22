@@ -45,3 +45,35 @@ export async function getAllDishes(restaurant: string) {
   }`;
   return await sanityClient.fetch(query, { restaurant });
 }
+
+export async function getPrixFixeMenu(restaurant: string) {
+  const query = `*[_type == "prixFixeMenu" && restaurant == $restaurant][0]{
+    price,
+    schedule,
+    allergyNote,
+    sections[]{
+      courseLabel,
+      heading,
+      items[]{ name }
+    },
+    footnote,
+    active
+  }`;
+  return await sanityClient.fetch(query, { restaurant });
+}
+
+export async function getHappyHourMenu(restaurant: string) {
+  const query = `*[_type == "happyHourMenu" && restaurant == $restaurant][0]{
+    hours,
+    locationNote,
+    drinkSections[]{
+      heading,
+      description,
+      items[]{ name, desc }
+    },
+    snacks[]{ name, desc },
+    snacksHeading,
+    active
+  }`;
+  return await sanityClient.fetch(query, { restaurant });
+}

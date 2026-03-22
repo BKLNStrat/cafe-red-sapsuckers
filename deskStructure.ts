@@ -8,6 +8,7 @@ import type { StructureBuilder } from 'sanity/structure'
  *    Site Content        (singleton)
  *    Dishes              (filtered)
  *    Menu Sections       (filtered, sorted)
+ *    Prix Fixe Menu      (singleton)
  *    Gallery             (filtered)
  *    Party Menus         (filtered)
  *    Events              (filtered)
@@ -18,6 +19,7 @@ import type { StructureBuilder } from 'sanity/structure'
  *    Site Content        (singleton)
  *    Dishes              (filtered)
  *    Menu Sections       (filtered, sorted)
+ *    Happy Hour Menu     (singleton)
  *    Gallery             (filtered)
  *    Events              (filtered)
  *    FAQ                 (filtered)
@@ -27,7 +29,7 @@ function restaurantGroup(
   S: StructureBuilder,
   key: 'cafe-red' | 'sapsuckers',
   label: string,
-  opts: { includePartyMenus?: boolean } = {}
+  opts: { includePartyMenus?: boolean; includePrixFixe?: boolean; includeHappyHour?: boolean } = {}
 ) {
   const items = [
     // Singleton: Location
@@ -98,6 +100,36 @@ function restaurantGroup(
       ),
   ]
 
+  // Prix Fixe Menu (Cafe Red)
+  if (opts.includePrixFixe) {
+    items.push(
+      S.listItem()
+        .title('Prix Fixe Menu')
+        .id(`${key}-prixFixe`)
+        .child(
+          S.document()
+            .schemaType('prixFixeMenu')
+            .documentId(`prixfixe-${key}`)
+            .title(`${label} — Prix Fixe Menu`)
+        )
+    )
+  }
+
+  // Happy Hour Menu (Sapsuckers)
+  if (opts.includeHappyHour) {
+    items.push(
+      S.listItem()
+        .title('Happy Hour Menu')
+        .id(`${key}-happyHour`)
+        .child(
+          S.document()
+            .schemaType('happyHourMenu')
+            .documentId(`happyhour-${key}`)
+            .title(`${label} — Happy Hour Menu`)
+        )
+    )
+  }
+
   // Party Menus (Cafe Red only)
   if (opts.includePartyMenus) {
     items.push(
@@ -162,6 +194,6 @@ export const deskStructure = (S: StructureBuilder) =>
   S.list()
     .title('Content')
     .items([
-      restaurantGroup(S, 'cafe-red', 'Cafe Red', { includePartyMenus: true }),
-      restaurantGroup(S, 'sapsuckers', 'Sapsuckers'),
+      restaurantGroup(S, 'cafe-red', 'Cafe Red', { includePartyMenus: true, includePrixFixe: true }),
+      restaurantGroup(S, 'sapsuckers', 'Sapsuckers', { includeHappyHour: true }),
     ])

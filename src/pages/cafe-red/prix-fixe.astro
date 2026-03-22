@@ -1,40 +1,64 @@
 ---
 import CafeRedLayout from '../../layouts/CafeRedLayout.astro';
+import { getPrixFixeMenu } from '../../lib/sanity';
 
-const prixFixe = {
+// Fetch from CMS
+const cmsData = await getPrixFixeMenu('cafe-red');
+
+// Hardcoded fallback (used if CMS data doesn't exist yet)
+const fallback = {
   price: '$37.95 per person',
   schedule: 'Sunday through Thursday, every week',
-  appetizer: [
-    'Soup of the Day',
-    'Caesar Salad — parmesan shavings, croutons, baby romaine, anchovy-free dressing',
-    'Panzanella Salad — cucumber, red onion, cherry tomato, basil, croutons, red wine vinaigrette',
-    'Sausage & Peppers — Italian sausage, sweet bell peppers, onion, tomato-garlic sauce',
-    'Arancini — mozzarella-filled rice balls, tomato dipping sauce',
-    'Mussels — P.E.I. mussels, lemon-garlic, white wine'
+  allergyNote: 'Please inform us of any food allergies before you order.',
+  sections: [
+    {
+      courseLabel: 'First Course',
+      heading: 'Appetizer — Choice of',
+      items: [
+        { name: 'Soup of the Day' },
+        { name: 'Caesar Salad — parmesan shavings, croutons, baby romaine, anchovy-free dressing' },
+        { name: 'Panzanella Salad — cucumber, red onion, cherry tomato, basil, croutons, red wine vinaigrette' },
+        { name: 'Sausage & Peppers — Italian sausage, sweet bell peppers, onion, tomato-garlic sauce' },
+        { name: 'Arancini — mozzarella-filled rice balls, tomato dipping sauce' },
+        { name: 'Mussels — P.E.I. mussels, lemon-garlic, white wine' },
+      ],
+    },
+    {
+      courseLabel: 'Second Course',
+      heading: 'Main Course — Choice of',
+      items: [
+        { name: 'Monkfish Curry — mango chutney, jasmine rice, vegetables (+ GF)' },
+        { name: 'Ora King Salmon — sesame crusted, wasabi aioli (+$8, GF)' },
+        { name: 'Hay & Straw — pasta, mushrooms, cream, white truffle oil' },
+        { name: 'Chicken Francese — organic cutlet, lemon-caper emulsion (+ GF)' },
+        { name: "Hunter's Chicken — braised in red wine with mushrooms, onion & bacon, mashed potatoes" },
+        { name: 'Tuscan Steak — shell steak, roasted potatoes, baby arugula (+ GF)' },
+        { name: 'Pork Shank Osso Bucco — slow braised (+$6, GF)' },
+      ],
+    },
+    {
+      courseLabel: 'Finale',
+      heading: 'Dessert',
+      items: [
+        { name: 'Choice of any homemade dessert' },
+      ],
+    },
   ],
-  mains: [
-    'Monkfish Curry — mango chutney, jasmine rice, vegetables (+ GF)',
-    'Ora King Salmon — sesame crusted, wasabi aioli (+$8, GF)',
-    'Hay & Straw — pasta, mushrooms, cream, white truffle oil',
-    'Chicken Francese — organic cutlet, lemon-caper emulsion (+ GF)',
-    "Hunter's Chicken — braised in red wine with mushrooms, onion & bacon, mashed potatoes",
-    'Tuscan Steak — shell steak, roasted potatoes, baby arugula (+ GF)',
-    'Pork Shank Osso Bucco — slow braised (+$6, GF)'
-  ],
-  dessert: 'Choice of any homemade dessert',
-  footnote: '“+” indicates naturally gluten free · “++” indicates gluten free upon request with modifications.'
+  footnote: '"+" indicates naturally gluten free · "++" indicates gluten free upon request with modifications.',
 };
+
+const prixFixe = cmsData || fallback;
 ---
 <CafeRedLayout
   title="Prix Fixe Menu | Cafe Red"
-  description="Three-course prix fixe dinner at Cafe Red in Kings Park — $37.95 per person, available Sunday through Thursday."
+  description={`Three-course prix fixe dinner at Cafe Red in Kings Park — ${prixFixe.price}, available ${prixFixe.schedule}.`}
   currentPage="prix-fixe"
 >
   <section class="relative py-16 md:py-24 bg-[#f7f1eb] border-y border-[#a73939]/30">
     <div class="max-w-3xl mx-auto px-6 text-center">
       <p class="tracking-[0.4em] text-xs text-[#a32e2e] uppercase mb-4">Cafe Red</p>
       <h1 class="text-4xl md:text-5xl font-display font-bold text-[#7c1f1f] mb-6">Prix Fixe Menu</h1>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">{prixFixe.schedule}. Please inform us of any food allergies before you order.</p>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto">{prixFixe.schedule}. {prixFixe.allergyNote}</p>
       <p class="mt-4 text-2xl font-display text-[#7c1f1f]">{prixFixe.price}</p>
     </div>
   </section>
@@ -43,44 +67,33 @@ const prixFixe = {
     <div class="max-w-4xl mx-auto px-4">
       <div class="bg-white border border-[#dab7aa] rounded-[32px] shadow-xl px-6 py-10 md:px-12">
         <div class="space-y-12 text-center">
-          <div>
-            <p class="tracking-[0.3em] text-xs text-[#a32e2e] uppercase mb-3">First Course</p>
-            <h2 class="text-3xl font-display text-[#7c1f1f] mb-6">Appetizer — Choice of</h2>
-            <ul class="grid gap-4 text-left">
-              {prixFixe.appetizer.map((item) => (
-                <li class="text-gray-700 text-base leading-relaxed">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="h-px w-32 mx-auto bg-[#c05b4b]/50" />
-
-          <div>
-            <p class="tracking-[0.3em] text-xs text-[#a32e2e] uppercase mb-3">Second Course</p>
-            <h2 class="text-3xl font-display text-[#7c1f1f] mb-6">Main Course — Choice of</h2>
-            <ul class="grid gap-4 text-left">
-              {prixFixe.mains.map((item) => (
-                <li class="text-gray-700 text-base leading-relaxed">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="h-px w-32 mx-auto bg-[#c05b4b]/50" />
-
-          <div>
-            <p class="tracking-[0.3em] text-xs text-[#a32e2e] uppercase mb-3">Finale</p>
-            <h2 class="text-3xl font-display text-[#7c1f1f] mb-3">Dessert</h2>
-            <p class="text-gray-700">{prixFixe.dessert}</p>
-          </div>
+          {prixFixe.sections?.map((section: any, i: number) => (
+            <>
+              {i > 0 && <div class="h-px w-32 mx-auto bg-[#c05b4b]/50" />}
+              <div>
+                {section.courseLabel && (
+                  <p class="tracking-[0.3em] text-xs text-[#a32e2e] uppercase mb-3">{section.courseLabel}</p>
+                )}
+                <h2 class="text-3xl font-display text-[#7c1f1f] mb-6">{section.heading}</h2>
+                {section.items?.length === 1 ? (
+                  <p class="text-gray-700">{section.items[0].name}</p>
+                ) : (
+                  <ul class="grid gap-4 text-left">
+                    {section.items?.map((item: any) => (
+                      <li class="text-gray-700 text-base leading-relaxed">{item.name}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </>
+          ))}
         </div>
 
-        <div class="mt-10 text-center text-xs text-gray-500 italic">
-          {prixFixe.footnote}
-        </div>
+        {prixFixe.footnote && (
+          <div class="mt-10 text-center text-xs text-gray-500 italic">
+            {prixFixe.footnote}
+          </div>
+        )}
       </div>
     </div>
   </section>
